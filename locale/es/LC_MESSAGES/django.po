@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-07-02 02:50+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
 "Last-Translator: Julio C. Ortega, 2024\n"
 "Language-Team: Spanish (https://app.transifex.com/nextcloud/teams/64236/es/)\n"
@@ -101,11 +101,11 @@ msgid ""
 "You can generate the CSR by executing the following command:"
 msgstr ""
 "Normalmente almacenado en ~/.nextcloud/certificates/APP_ID.crt, donde APP_ID"
-" es la id de tu app. Si no tienes un certificado, debes crear primero una "
+" es la id de tu app. Si no tiene un certificado, debe crear primero una "
 "petición de firma de certificado (CSR), que debe ser publicada en el <a "
 "href=\"https://github.com/nextcloud/app-certificate-requests\" "
 "rel=\"noreferrer noopener\">repositorio de certificados</a> (sigue el "
-"LÉEME). Puedes generar el CSR ejecutando el siguiente comando:"
+"LÉEME). Puede generar el CSR ejecutando el siguiente comando:"
 
 #: nextcloudappstore/core/forms.py:54
 msgid "Signature over your app's ID"
@@ -686,7 +686,7 @@ msgstr "Prohibido"
 
 #: nextcloudappstore/core/templates/403.html:10
 msgid "You are forbidden to access this page!"
-msgstr "¡Tienes prohibido acceder a esta página!"
+msgstr "¡Tiene prohibido acceder a esta página!"
 
 #: nextcloudappstore/core/templates/404.html:4
 msgid "Not Found"
@@ -810,7 +810,7 @@ msgstr "Restablecer mi contraseña"
 #: nextcloudappstore/core/templates/account/password_reset.html:31
 msgid "Please contact us if you have any trouble resetting your password"
 msgstr ""
-"Por favor, contacta con nosotros si tienes algún problema al restablecer la "
+"Por favor, contacte con nosotros si tiene algún problema al restablecer la "
 "contraseña"
 
 #: nextcloudappstore/core/templates/account/password_reset_done.html:17

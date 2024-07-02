@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-06-13 02:47+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
 "Last-Translator: Alex <kekcuha@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/nextcloud/teams/64236/ru/)\n"
@@ -945,7 +945,7 @@ msgstr "Документация разработчика"
 
 #: nextcloudappstore/core/templates/app/detail.html:106
 msgid "Interact"
-msgstr ""
+msgstr "Содействовать"
 
 #: nextcloudappstore/core/templates/app/detail.html:112
 msgid "Report problem"
@@ -1527,7 +1527,7 @@ msgstr ""
 
 #: nextcloudappstore/templates/socialaccount/login.html:6
 msgid "Sign In"
-msgstr ""
+msgstr "Войти"
 
 #: nextcloudappstore/templates/socialaccount/login.html:11
 #, python-format
@@ -1556,7 +1556,7 @@ msgstr "Продолжить"
 
 #: nextcloudappstore/user/adapters.py:12
 msgid "Provided email address is not valid."
-msgstr ""
+msgstr "Адрес электронной почты указан некорректно."
 
 #: nextcloudappstore/user/forms.py:19
 msgid "First name"
@@ -1671,7 +1671,7 @@ msgstr ""
 
 #: nextcloudappstore/user/templates/user/appeal-comments.html:25
 msgid "Go to"
-msgstr ""
+msgstr "Перейти"
 
 #: nextcloudappstore/user/templates/user/base.html:20
 #: nextcloudappstore/user/templates/user/integrations.html:5

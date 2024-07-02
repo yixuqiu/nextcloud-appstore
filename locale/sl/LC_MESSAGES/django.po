@@ -8,17 +8,17 @@
 # Aljoša Čavlovič (ĐoKc) <aljosa.cavlovic@gmail.com>, 2020
 # Goran Kavrecic <goran.kavrecic@indea.si>, 2023
 # Tilen Komel, 2023
-# Matej Urbančič <>, 2024
 # Jan Kraljič <jan.kraljic@patware.eu>, 2024
+# Matej Urbančič <>, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-06-28 02:55+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
-"Last-Translator: Jan Kraljič <jan.kraljic@patware.eu>, 2024\n"
+"Last-Translator: Matej Urbančič <>, 2024\n"
 "Language-Team: Slovenian (https://app.transifex.com/nextcloud/teams/64236/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -975,7 +975,7 @@ msgstr ""
 
 #: nextcloudappstore/core/templates/app/detail.html:202
 msgid "Delete spam comment"
-msgstr "Izbriši nezaželjen komentar"
+msgstr "Izbriši neželen komentar"
 
 #: nextcloudappstore/core/templates/app/detail.html:222
 msgid "No comments found."

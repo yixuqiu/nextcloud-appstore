@@ -15,21 +15,21 @@
 # Oleksandr H. <test7789987@gmail.com>, 2020
 # olex ua <olexua@pclosmail.com>, 2020
 # Valerii Medvediuk <valeramedvedyuk@gmail.com>, 2022
-# Mehi Loki, 2023
 # Vitaliy (viabcua) <gviabcua@gmail.com>, 2023
 # Володимир Івах <vovaivah034@gmail.com>, 2023
 # daf9a3bef94549192358462a8bb20263_a023b71 <69530ed134884b79b067e9214de553f8_465041>, 2023
 # Yevhen <xalt7x.service@gmail.com>, 2023
 # O St <oleksiy.stasevych@gmail.com>, 2024
+# Mehi Loki, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-06-27 02:48+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
-"Last-Translator: O St <oleksiy.stasevych@gmail.com>, 2024\n"
+"Last-Translator: Mehi Loki, 2024\n"
 "Language-Team: Ukrainian (https://app.transifex.com/nextcloud/teams/64236/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -819,6 +819,9 @@ msgid ""
 "We have sent you an email. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
 msgstr ""
+"Ми надіслали вам електронного листа. Якщо ви його не отримали, перевірте, "
+"будь ласка, папку \"Спам\". В іншому випадку зв'яжіться з нами, якщо ви не "
+"отримаєте його протягом декількох хвилин."
 
 #: nextcloudappstore/core/templates/account/password_reset_from_key.html:11
 msgid "Bad API Token"
@@ -862,6 +865,11 @@ msgid ""
 "your main inbox, check your spam folder. Please contact us if you do not "
 "receive the verification email within a few minutes."
 msgstr ""
+"Ми надіслали вам електронного листа для підтвердження. Перейдіть за "
+"посиланням, щоб завершити процес реєстрації. Якщо ви не бачите листа з "
+"підтвердженням у вашій поштовій скриньці, перевірте папку \"Спам\". Будь "
+"ласка, зв'яжіться з нами, якщо ви не отримаєте лист з підтвердженням "
+"протягом декількох хвилин."
 
 #: nextcloudappstore/core/templates/admin/base_site.html:4
 msgid "Nextcloud App Store admin"
@@ -1545,7 +1553,7 @@ msgstr "Продовжити"
 
 #: nextcloudappstore/user/adapters.py:12
 msgid "Provided email address is not valid."
-msgstr ""
+msgstr "Надано некоректну адресу електронної пошти "
 
 #: nextcloudappstore/user/forms.py:19
 msgid "First name"

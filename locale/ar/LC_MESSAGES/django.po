@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-06-13 02:47+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
 "Last-Translator: Ali <alimahwer@yahoo.com>, 2024\n"
 "Language-Team: Arabic (https://app.transifex.com/nextcloud/teams/64236/ar/)\n"
@@ -1383,11 +1383,11 @@ msgstr "كل شيء عدا ذلك"
 
 #: nextcloudappstore/core/templates/translation/db_translations.txt:27
 msgid "Flow"
-msgstr "تدفُّق Flow"
+msgstr "مسارات الدَّفق"
 
 #: nextcloudappstore/core/templates/translation/db_translations.txt:28
 msgid "Apps for Nextcloud Flow"
-msgstr "تطبيقات تدفُّق نكست كلاود Nextcloud Flow"
+msgstr "تطبيقات لمسارات الدَّفق لنكست كلاود Nextcloud Flow"
 
 #: nextcloudappstore/core/templatetags/app_rating.py:7
 msgid "Very negative"

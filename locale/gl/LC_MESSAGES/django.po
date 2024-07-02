@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-04 02:56+0000\n"
+"POT-Creation-Date: 2024-06-28 02:55+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2024\n"
 "Language-Team: Galician (https://app.transifex.com/nextcloud/teams/64236/gl/)\n"
@@ -387,7 +387,7 @@ msgstr "O rexistro de cambios da publicación da versión. Pode conter Markdown"
 
 #: nextcloudappstore/core/models.py:386
 msgid "AppAPI system app flag"
-msgstr "Marca da aplicación do sistema AppAPI"
+msgstr "Indicador da aplicación do sistema AppAPI"
 
 #: nextcloudappstore/core/models.py:388
 msgid ""
@@ -409,7 +409,7 @@ msgstr "Publicación das versións das aplicacións"
 
 #: nextcloudappstore/core/models.py:450
 msgid "Deploy Identifier"
-msgstr "Identificador de despregue"
+msgstr "Identificador de despregadura"
 
 #: nextcloudappstore/core/models.py:453
 msgid "Installer specific data"
@@ -422,11 +422,11 @@ msgstr ""
 
 #: nextcloudappstore/core/models.py:459
 msgid "AppAPI release Deploy method"
-msgstr "Método de despregue da versión AppAPI"
+msgstr "Método de despregadura dunha publicación  AppAPI"
 
 #: nextcloudappstore/core/models.py:460
 msgid "AppAPI release Deploy methods"
-msgstr "Métodos de despregue da versión AppAPI"
+msgstr "Métodos de despregadura dunha publicación  AppAPI"
 
 #: nextcloudappstore/core/models.py:471
 msgid "Name of the API scope"
@@ -806,9 +806,9 @@ msgid ""
 "We have sent you an email. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
 msgstr ""
-"Enviámosche un correo electrónico. Se non o recibiches, consulta o teu "
-"cartafol de spam. En caso contrario, póñase en contacto connosco se non o "
-"recibes nuns minutos."
+"Témoslle enviado un correo-e. Se non o recibiu, revise o seu cartafol de "
+"correo lixo. En caso contrario, póñase en contacto connosco se non o recibe "
+"nuns minutos."
 
 #: nextcloudappstore/core/templates/account/password_reset_from_key.html:11
 msgid "Bad API Token"
@@ -843,7 +843,7 @@ msgstr "Crear unha conta"
 #: nextcloudappstore/core/templates/account/verification_sent.html:6
 #: nextcloudappstore/core/templates/account/verification_sent.html:10
 msgid "Verify Your Email Address"
-msgstr "Verifica o Teu Enderezo de Correo Electrónico"
+msgstr "Verifique o seu enderezo de correo-e"
 
 #: nextcloudappstore/core/templates/account/verification_sent.html:13
 msgid ""
@@ -852,11 +852,10 @@ msgid ""
 "your main inbox, check your spam folder. Please contact us if you do not "
 "receive the verification email within a few minutes."
 msgstr ""
-"Enviámosche un correo electrónico para a verificación. Siga a ligazón "
-"proporcionada para finalizar o proceso de rexistro. Se non ves o correo "
-"electrónico de verificación na túa caixa de entrada principal, revisa o teu "
-"cartafol de spam. Póñase en contacto connosco se non recibe o correo "
-"electrónico de verificación nuns minutos."
+"Témoslle enviado un correo-e para a verificación. Siga a ligazón fornecida "
+"para rematar o proceso de rexistro. Se non ve o correo-e de verificación na "
+"súa caixa de entrada principal, revise o seu cartafol de correo lixo. Póñase"
+" en contacto connosco se non recibe o correo-e de verificación nuns minutos."
 
 #: nextcloudappstore/core/templates/admin/base_site.html:4
 msgid "Nextcloud App Store admin"
@@ -925,7 +924,7 @@ msgstr "Documentación da administración da instancia"
 #: nextcloudappstore/core/templates/app/detail.html:100
 #: nextcloudappstore/core/templates/nav.html:28
 msgid "Developer documentation"
-msgstr "Documentación do desenvolvedor"
+msgstr "Documentación para desenvolvedores"
 
 #: nextcloudappstore/core/templates/app/detail.html:106
 msgid "Interact"
@@ -978,16 +977,16 @@ msgstr "Aceptar"
 #: nextcloudappstore/core/templates/app/detail.html:193
 #: nextcloudappstore/core/templates/app/detail.html:207
 msgid "Appeal for spam"
-msgstr "Chamamento ao correo non desexado"
+msgstr "Chamamento aos comentarios lixo"
 
 #: nextcloudappstore/core/templates/app/detail.html:198
 #: nextcloudappstore/core/templates/app/detail.html:211
 msgid "Cancel spam appeal"
-msgstr "Cancelar o chamamento ao correo non desexado"
+msgstr "Cancelar o chamamento aos comentarios lixo"
 
 #: nextcloudappstore/core/templates/app/detail.html:202
 msgid "Delete spam comment"
-msgstr "Eliminar comentario de spam"
+msgstr "Eliminar os comentarios lixo"
 
 #: nextcloudappstore/core/templates/app/detail.html:222
 msgid "No comments found."
@@ -1019,10 +1018,10 @@ msgid ""
 msgstr ""
 "Os comentarios de valoración admiten <a rel=\"noopener noreferrer\" "
 "href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>. "
-"Non use comentarios de valoración para informar de erros ou solicitar "
-"funcións. Nin os desenvolvedores nin os usuarios recibirán notificacións do "
-"teu comentario. Unha valoración sen comentarios tamén conta, pero non "
-"aparecerá a continuación."
+"Non use os comentarios de cualificación para informar de fallos ou para "
+"solicitar funcionalidades. Nin os desenvolvedores nin os usuarios serán "
+"notificados do seu comentario. Unha valoración sen comentarios tamén conta, "
+"mais non se enumerará a seguir."
 
 #: nextcloudappstore/core/templates/app/detail.html:254
 msgid "Update rating"
@@ -1519,13 +1518,12 @@ msgstr ""
 #: nextcloudappstore/templates/socialaccount/authentication_error.html:5
 #: nextcloudappstore/templates/socialaccount/authentication_error.html:9
 msgid "Third-Party Login Failure"
-msgstr "Produciuse un Erro no Inicio de Sesión de Terceiros"
+msgstr "Produciuse un fallo no acceso de terceiros"
 
 #: nextcloudappstore/templates/socialaccount/authentication_error.html:11
 msgid ""
 "An error occurred while attempting to login via your third-party account."
-msgstr ""
-"Produciuse un erro ao tentar iniciar sesión coa túa conta de terceiros."
+msgstr "Produciuse un fallo ao tentar acceder coa súa conta de terceiros."
 
 #: nextcloudappstore/templates/socialaccount/login.html:6
 msgid "Sign In"
@@ -1559,7 +1557,7 @@ msgstr "Continuar"
 
 #: nextcloudappstore/user/adapters.py:12
 msgid "Provided email address is not valid."
-msgstr "O enderezo de correo electrónico proporcionado non é válido."
+msgstr "O enderezo de correo-e fornecido non é válido."
 
 #: nextcloudappstore/user/forms.py:19
 msgid "First name"

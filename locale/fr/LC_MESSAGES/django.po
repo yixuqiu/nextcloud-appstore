@@ -27,7 +27,6 @@
 # kurn77, 2022
 # Rémy J., 2022
 # Nicolas François Leperlier <leperlier.n@gmail.com>, 2022
-# Jérôme HERBINET, 2023
 # Christian Wolf <github@christianwolf.email>, 2023
 # Florian, 2023
 # Louis F., 2023
@@ -38,15 +37,17 @@
 # Ludovici t <ludovic.tourtelier@e-c.bzh>, 2024
 # Regis Perdreau, 2024
 # Mordecai, 2024
+# Jérôme HERBINET, 2024
+# Marin GERARD, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-07-02 02:50+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
-"Last-Translator: Mordecai, 2024\n"
+"Last-Translator: Marin GERARD, 2024\n"
 "Language-Team: French (https://app.transifex.com/nextcloud/teams/64236/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -445,6 +446,7 @@ msgstr ""
 #: nextcloudappstore/core/models.py:454
 msgid "JSON data for AppAPI installer depending on installation type"
 msgstr ""
+"Les données JSON pour l'installateur AppAPI dépendent du type d'installation"
 
 #: nextcloudappstore/core/models.py:459
 msgid "AppAPI release Deploy method"
@@ -611,7 +613,7 @@ msgstr "Image"
 
 #: nextcloudappstore/core/models.py:641
 msgid "Show podcast"
-msgstr ""
+msgstr "Afficher le podcast"
 
 #: nextcloudappstore/core/models.py:644
 msgid "Nextcloud Podcast"
@@ -631,11 +633,11 @@ msgstr "Suppressions de versions de l’application"
 
 #: nextcloudappstore/core/models.py:689
 msgid "App rating deletion"
-msgstr ""
+msgstr "Suppression de la note de l'appplication"
 
 #: nextcloudappstore/core/models.py:690
 msgid "App rating deletions"
-msgstr ""
+msgstr "Suppression des notes de l'application"
 
 #: nextcloudappstore/core/models.py:703
 #: nextcloudappstore/core/templates/app/detail.html:140
@@ -733,7 +735,7 @@ msgid ""
 msgstr ""
 "Salutations de %(site_name)s !\n"
 "\n"
-"Vous recevez ce courriel car l’utilisateur %(user_display)s a lié cette adresse électronique à son compte sur %(site_domain)s.\n"
+"Vous recevez cet e-mail, car l’utilisateur %(user_display)s a lié cette adresse e-mail à son compte sur %(site_domain)s.\n"
 "\n"
 "Pour confirmer que ceci est correct, allez sur %(activate_url)s\n"
 "\n"
@@ -751,7 +753,7 @@ msgstr ""
 #: nextcloudappstore/core/templates/account/email_confirm.html:6
 #: nextcloudappstore/core/templates/account/email_confirm.html:11
 msgid "Confirm Email Address"
-msgstr "Confirmer l’adresse électronique"
+msgstr "Confirmer l’adresse e-mail"
 
 #: nextcloudappstore/core/templates/account/email_confirm.html:17
 #, python-format
@@ -760,7 +762,7 @@ msgid ""
 "address for user %(user_display)s."
 msgstr ""
 "Merci de confirmer que <a href=\"mailto:%(email)s\">%(email)s</a> est une "
-"adresse électronique pour l’utilisateur %(user_display)s."
+"adresse e-mail pour l’utilisateur %(user_display)s."
 
 #: nextcloudappstore/core/templates/account/email_confirm.html:21
 msgid "Confirm"
@@ -772,8 +774,8 @@ msgid ""
 "This email confirmation link expired or is invalid. Please <a "
 "href=\"%(email_url)s\">issue a new email confirmation request</a>."
 msgstr ""
-"Ce lien de confirmation par courriel a expiré ou est invalide. Merci <a "
-"href=\"%(email_url)s\">de demander un nouveau courriel de confirmation</a>."
+"Ce lien de confirmation par e-mail a expiré ou est invalide. Merci <a "
+"href=\"%(email_url)s\">de demander un nouvel e-mail de confirmation</a>."
 
 #: nextcloudappstore/core/templates/account/login.html:5
 #: nextcloudappstore/core/templates/account/login.html:12
@@ -834,8 +836,8 @@ msgid ""
 "We have sent you an email. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
 msgstr ""
-"Nous vous avons envoyé un courriel. Si vous ne l’avez pas reçu, veuillez "
-"vérifier votre dossier des courriels indésirables. Sinon, contactez-nous si "
+"Nous vous avons envoyé un e-mail. Si vous ne l’avez pas reçu, veuillez "
+"vérifier votre dossier des e-mails indésirables. Sinon, contactez-nous si "
 "vous ne l’avez pas reçu en quelques minutes."
 
 #: nextcloudappstore/core/templates/account/password_reset_from_key.html:11
@@ -871,7 +873,7 @@ msgstr "Créer un compte"
 #: nextcloudappstore/core/templates/account/verification_sent.html:6
 #: nextcloudappstore/core/templates/account/verification_sent.html:10
 msgid "Verify Your Email Address"
-msgstr "Vérifier votre adresse électronique"
+msgstr "Vérifiez votre adresse e-mail"
 
 #: nextcloudappstore/core/templates/account/verification_sent.html:13
 msgid ""
@@ -880,11 +882,11 @@ msgid ""
 "your main inbox, check your spam folder. Please contact us if you do not "
 "receive the verification email within a few minutes."
 msgstr ""
-"Nous vous avons envoyé un courriel pour vérification. Suivez le lien fourni "
-"pour finaliser le processus d’inscription. Si vous ne voyez pas le courriel "
-"de vérification dans votre boîte de réception, vérifiez votre dossier des "
-"indésirables. Veuillez nous contacter si vous n’avez pas reçu le courriel de"
-" vérification dans les quelques minutes."
+"Nous vous avons envoyé un e-mail pour vérification. Suivez le lien fourni "
+"pour finaliser le processus d’inscription. Si vous ne voyez pas l'e-mail de "
+"vérification dans votre boîte de réception, vérifiez votre dossier des "
+"indésirables. Veuillez nous contacter si vous n’avez pas reçu l'e-mail de "
+"vérification dans les quelques minutes."
 
 #: nextcloudappstore/core/templates/admin/base_site.html:4
 msgid "Nextcloud App Store admin"
@@ -1472,7 +1474,7 @@ msgstr "Nom complet de l’auteur"
 
 #: nextcloudappstore/scaffolding/forms.py:42
 msgid "Author's email"
-msgstr "Adresse électronique de l’auteur"
+msgstr "E-mail de l’auteur"
 
 #: nextcloudappstore/scaffolding/forms.py:43
 #: nextcloudappstore/scaffolding/forms.py:75
@@ -1564,7 +1566,7 @@ msgstr "Se connecter"
 #: nextcloudappstore/templates/socialaccount/login.html:11
 #, python-format
 msgid "Connect %(provider)s"
-msgstr ""
+msgstr "Connecter %(provider)s"
 
 #: nextcloudappstore/templates/socialaccount/login.html:14
 #, python-format
@@ -1575,7 +1577,7 @@ msgstr ""
 #: nextcloudappstore/templates/socialaccount/login.html:18
 #, python-format
 msgid "Sign In Via %(provider)s"
-msgstr ""
+msgstr "Se connecter avec %(provider)s"
 
 #: nextcloudappstore/templates/socialaccount/login.html:21
 #, python-format
@@ -1591,7 +1593,7 @@ msgstr "Continuer"
 
 #: nextcloudappstore/user/adapters.py:12
 msgid "Provided email address is not valid."
-msgstr "L’adresse électronique fournie n’est pas valide."
+msgstr "L’adresse e-mail fournie n’est pas valide."
 
 #: nextcloudappstore/user/forms.py:19
 msgid "First name"
@@ -1615,9 +1617,7 @@ msgstr "*Obligatoire si le compte est enregistré avec un mot de passe"
 
 #: nextcloudappstore/user/forms.py:45
 msgid "The given email address does not match your email address"
-msgstr ""
-"L’adresse électronique fournie ne correspond pas à votre adresse "
-"électronique"
+msgstr "L’adresse e-mail fournie ne correspond pas à votre adresse e-mail"
 
 #: nextcloudappstore/user/forms.py:53 nextcloudappstore/user/forms.py:86
 msgid "Invalid password"
@@ -1750,8 +1750,8 @@ msgid ""
 "click the \"Delete account\" button."
 msgstr ""
 "Supprimer votre compte va aussi supprimer toutes vos applications et "
-"publications. Pour supprimer votre compte, entrez votre adresse électronique"
-" dans le champ de saisie puis cliquez sur le bouton « Supprimer le compte »."
+"publications. Pour supprimer votre compte, entrez votre adresse e-mail dans "
+"le champ de saisie, puis cliquez sur le bouton « Supprimer le compte »."
 
 #: nextcloudappstore/user/templates/user/integrations.html:9
 msgid "Pending approval"

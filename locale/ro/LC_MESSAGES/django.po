@@ -13,11 +13,11 @@
 # Radu Basca <radu.basca@gmail.com>, 2020
 # Grup ABS <grupabsarad@gmail.com>, 2020
 # cip <c1pr1an@tuta.io>, 2020
-# Alecsa Maria <suciumariaalecsandra@gmail.com>, 2021
+# Alecsandra <suciumariaalecsandra@gmail.com>, 2021
 # Razvan Dan <razvan.razvy.111@gmail.com>, 2021
 # 2d35290778a1dea195952ea0aa7b8ec6_0c445ac <5cca2f2fbfcfe3e99a2c07e9285f113f_999255>, 2022
 # Mihai Michael, 2022
-# Georgeuhm, 2023
+# George Varga, 2023
 # Mike Daniels <viper2k_v2k@yahoo.com>, 2023
 # Andrei Ternauciuc <andrei.ternauciuc@gmail.com>, 2023
 # daf9a3bef94549192358462a8bb20263_a023b71 <69530ed134884b79b067e9214de553f8_465041>, 2023
@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 02:49+0000\n"
+"POT-Creation-Date: 2024-07-02 02:50+0000\n"
 "PO-Revision-Date: 2016-09-05 12:43+0000\n"
 "Last-Translator: Liviu Milies, 2023\n"
 "Language-Team: Romanian (https://app.transifex.com/nextcloud/teams/64236/ro/)\n"
