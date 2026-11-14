@@ -4,7 +4,9 @@ App Developer Guide
 ===================
 
 Note: Documentation and a tutorial about App Development itself (vs "app development and the App Store") is found at
-`https://docs.nextcloud.com/server/stable/developer_manual/app/index.html <https://docs.nextcloud.com/server/stable/developer_manual/app/index.html>`_.
+`https://docs.nextcloud.com/server/stable/developer_manual/app_development/index.html <https://docs.nextcloud.com/server/stable/developer_manual/app_development/index.html>`_.
+Information regarding app monetization and payment can be found at
+`https://docs.nextcloud.com/server/latest/developer_manual/app_publishing_maintenance/monetizing.html <https://docs.nextcloud.com/server/latest/developer_manual/app_publishing_maintenance/monetizing.html>`_.
 
 Most of today's developers publish their source code on GitHub, BitBucket, GitLab or on their own GitLab instance. These tools typically also provide a way to release new versions based on Git tags or by uploading custom archives.
 
@@ -34,7 +36,7 @@ Then change into the directory::
 
     cd ~/.nextcloud/certificates/
 
-and generate your private certificate and CSR::
+and generate your private key and CSR::
 
     openssl req -nodes -newkey rsa:4096 -keyout APP_ID.key -out APP_ID.csr -subj "/CN=APP_ID"
 
@@ -171,12 +173,12 @@ A minimum valid **info.xml** would look like this:
         <summary>An RSS/Atom feed reader</summary>
         <description>An RSS/Atom feed reader</description>
         <version>8.8.2</version>
-        <licence>agpl</licence>
+        <licence>AGPL-3.0-or-later</licence>
         <author>Bernhard Posselt</author>
         <category>multimedia</category>
         <bugs>https://github.com/nextcloud/news/issues</bugs>
         <dependencies>
-            <nextcloud min-version="10"/>
+            <nextcloud min-version="31"/>
         </dependencies>
     </info>
 
@@ -194,7 +196,7 @@ A full blown example would look like this (needs to be utf-8 encoded):
         <description lang="en"># Description\nAn RSS/Atom feed reader</description>
         <description lang="de"><![CDATA[# Beschreibung\nEine Nachrichten App, welche mit [RSS/Atom](https://en.wikipedia.org/wiki/RSS) umgehen kann]]></description>
         <version>8.8.2</version>
-        <licence>agpl</licence>
+        <licence>AGPL-3.0-or-later</licence>
         <author mail="mail@provider.com" homepage="http://example.com">Bernhard Posselt</author>
         <author>Alessandro Cosentino</author>
         <author>Jan-Christoph Borchardt</author>
@@ -209,8 +211,12 @@ A full blown example would look like this (needs to be utf-8 encoded):
         <discussion>https://your.forum.com</discussion>
         <bugs>https://github.com/nextcloud/news/issues</bugs>
         <repository>https://github.com/nextcloud/news</repository>
+        <video>https://peertube.tv/w/dMWVlMwd9ecp5UVAOUhTDt</video>
+        <video>https://peertube.tv/videos/embed/TpUpEIu3PkYqljmQw7T0jR</video>
         <screenshot small-thumbnail="https://example.com/1-small.png">https://example.com/1.png</screenshot>
         <screenshot>https://example.com/2.jpg</screenshot>
+        <donation type="paypal" title="Donate via PayPal">https://paypal.com/example-link</donation>
+        <donation>https://github.com/sponsors/example</donation>
         <dependencies>
             <php min-version="5.6" min-int-size="64"/>
             <database min-version="9.4">pgsql</database>
@@ -222,7 +228,7 @@ A full blown example would look like this (needs to be utf-8 encoded):
             <lib>curl</lib>
             <lib>SimpleXML</lib>
             <lib>iconv</lib>
-            <nextcloud min-version="9" max-version="10"/>
+            <nextcloud min-version="31" max-version="32"/>
         </dependencies>
         <background-jobs>
             <job>OCA\DAV\CardDAV\Sync\SyncJob</job>
@@ -329,15 +335,51 @@ description
 version
     * required
     * must be a `semantic version <http://semver.org/>`_ without build metadata, e.g. 9.0.1 or 9.1.0-alpha.1
+    * versions with one or more pre-release identifiers (e.g. ``-alpha.1``) are automatically detected and handled as beta versions (for beta release channels)
 licence
     * required
-    * must contain **agpl**, **mpl*** and/or **apache** as the only valid values. These refer to the AGPLv3, MPL 2.0 and Apache License 2.0
+    * can occur multiple times with different licenses
+    * must contain one of the following licenses (for apps targeting v31 or higher, see the `SPDX License List <https://spdx.org/licenses/>`_ for details):
+
+        * `0BSD <https://spdx.org/licenses/0BSD.html>`_
+        * `AGPL-3.0-only <https://spdx.org/licenses/AGPL-3.0-only.html>`_
+        * `AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later.html>`_
+        * `Apache-2.0 <https://spdx.org/licenses/Apache-2.0.html>`_
+        * `BSD-2-Clause <https://spdx.org/licenses/BSD-2-Clause.html>`_
+        * `BSD-3-Clause <https://spdx.org/licenses/BSD-3-Clause.html>`_
+        * `BSD-3-Clause-Clear <https://spdx.org/licenses/BSD-3-Clause-Clear.html>`_
+        * `CC0-1.0 <https://spdx.org/licenses/CC0-1.0.html>`_
+        * `EUPL-1.2 <https://spdx.org/licenses/EUPL-1.2.html>`_
+        * `FSFAP <https://spdx.org/licenses/FSFAP.html>`_
+        * `GPL-2.0-or-later <https://spdx.org/licenses/GPL-2.0-or-later.html>`_
+        * `GPL-3.0-only <https://spdx.org/licenses/GPL-3.0-only.html>`_
+        * `GPL-3.0-or-later <https://spdx.org/licenses/GPL-3.0-or-later.html>`_
+        * `LGPL-2.1-only <https://spdx.org/licenses/LGPL-2.1-only.html>`_
+        * `LGPL-2.1-or-later <https://spdx.org/licenses/LGPL-2.1-or-later.html>`_
+        * `LGPL-3.0-only <https://spdx.org/licenses/LGPL-3.0-only.html>`_
+        * `LGPL-3.0-or-later <https://spdx.org/licenses/LGPL-3.0-or-later.html>`_
+        * `MIT <https://spdx.org/licenses/MIT.html>`_
+        * `MPL-2.0 <https://spdx.org/licenses/MPL-2.0.html>`_
+        * `OLDAP-2.7 <https://spdx.org/licenses/OLDAP-2.7.html>`_
+        * `PDDL-1.0 <https://spdx.org/licenses/PDDL-1.0.html>`_
+        * `SAX-PD <https://spdx.org/licenses/SAX-PD.html>`_
+        * `Unlicense <https://spdx.org/licenses/Unlicense.html>`_
+        * `X11 <https://spdx.org/licenses/X11.html>`_
+
+    * (deprecated, for apps targeting v30 or lower) the following shorthand aliases are also used:
+
+        * **agpl** (AGPL-3.0)
+        * **apache** (Apache-2.0)
+        * **gpl3** (GPL-3.0)
+        * **mit** (MIT)
+        * **mpl** (MPL-2.0)
+
 author
     * required
     * can occur multiple times with different authors
     * can contain a **mail** attribute which must be an email
     * can contain a **homepage** which must be an URL
-    * will not (yet) be rendered on the App Store
+    * will be rendered on the app detail page
     * will be provided through the REST API
 documentation/user
     * optional
@@ -370,6 +412,7 @@ category
        * **social**
        * **tools**
        * **workflow**
+       * **ai**
 
     * old categories are migrated:
 
@@ -394,11 +437,29 @@ repository
     * must contain an URL to the project's repository
     * can contain a **type** attribute, **git**, **mercurial**, **subversion** and **bzr** are allowed values, defaults to **git**
     * currently not used
+video
+    * optional
+    * can occur multiple times (up to 10)
+    * must contain an HTTPS URL to a PeerTube video in one of these forms:
+
+      * ``https://host/w/<id>``
+      * ``https://host/videos/watch/<id>``
+      * ``https://host/videos/embed/<id>``
+
+    * the store normalizes the URL to an embed URL and shows it in the app detail page gallery (before screenshots), in the given order
+    * other video hosts (for example YouTube) are not supported
 screenshot
     * optional
     * must contain an HTTPS URL to an image
+    * each screenshot is limited to at most 2 MiB in size
     * can contain a **small-thumbnail** attribute which must contain an https url to an image. This image will be used as small preview (e.g. on the app list overview). Keep it small so it renders fast
     * will be rendered on the app list and detail page in the given order
+donation
+    * optional
+    * can occur multiple times containing different donation URLs
+    * can contain a **title** attribute which must be a string, defaults to **Donate to support this app**
+    * can contain a **type** attribute, **paypal**, **stripe**, and **other** are allowed values, defaults to **other**
+    * will be rendered on the app detail page in the given order
 dependencies/php
     * optional
     * can contain a **min-version** attribute (maximum 3 digits separated by dots)

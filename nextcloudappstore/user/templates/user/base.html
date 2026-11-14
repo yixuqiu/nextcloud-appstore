@@ -2,6 +2,9 @@
 {% load i18n %}
 {% load static %}
 
+{# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
 {% block head-title %}{% trans "Account" %} - {% endblock %}
 
 {% block content %}
@@ -26,10 +29,28 @@
                     {% trans 'Transfer app ownership' %}
                 </a>
             </li>
+            <li class="{% if acc_page == 'account-deprecate-apps' %}active{% endif %}">
+                <a href="{% url 'user:account-deprecate-apps' %}">
+                    <span class="icon material-symbols-outlined">code_off</span>
+                    {% trans 'Deprecate apps' %}
+                </a>
+            </li>
+            <li class="{% if acc_page == 'account-enterprise-apps' %}active{% endif %}">
+                <a href="{% url 'user:account-enterprise-apps' %}">
+                    <span class="icon material-symbols-outlined">enterprise</span>
+                    {% trans 'Enterprise support' %}
+                </a>
+            </li>
             <li class="{% if acc_page == 'account-change-language' %}active{% endif %}">
                 <a href="{% url 'user:account-change-language' %}">
                     <span class="icon material-symbols-outlined">translate</span>
                     {% trans 'Change language' %}
+                </a>
+            </li>
+            <li class="{% if acc_page == 'account-video-preferences' %}active{% endif %}">
+                <a href="{% url 'user:account-video-preferences' %}">
+                    <span class="icon material-symbols-outlined">videocam</span>
+                    {% trans 'Video preferences' %}
                 </a>
             </li>
             {% if request.user.has_usable_password %}

@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import re
 import tarfile  # type: ignore
 from functools import reduce
@@ -6,8 +11,8 @@ from re import Pattern
 from typing import Any
 
 import lxml.etree  # type: ignore
-from rest_framework.exceptions import ValidationError  # type: ignore
 from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ValidationError  # type: ignore
 
 from nextcloudappstore.api.v1.release import ReleaseConfig
 from nextcloudappstore.core.versioning import (
@@ -353,7 +358,7 @@ def stream_read_file(tarfile: Any, path: str, max_size: int) -> bytes:
     while True:
         size += 1024
         if size > max_size:
-            msg = "file %s was bigger than allowed %i bytes" % (path, max_size)
+            msg = f"file {path} was bigger than allowed {max_size} bytes"
             raise MaxFileSizeExceeded(msg)
         chunk = file.read(1024)
         if not chunk:

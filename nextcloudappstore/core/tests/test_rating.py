@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
@@ -57,5 +62,5 @@ class RatingTest(TestCase):
         self.assertEqual(5, App.objects.get(id=app.id).rating_num_recent)
 
     def create_user(self, id):
-        user_id = "test%i" % id
+        user_id = f"test{id}"
         return get_user_model().objects.create_user(username=user_id, password=user_id, email=f"{user_id}@test.com")

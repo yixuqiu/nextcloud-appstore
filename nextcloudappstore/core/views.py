@@ -1,5 +1,10 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import json
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -24,7 +29,15 @@ from nextcloudappstore.core.forms import (
     AppRegisterForm,
     AppReleaseUploadForm,
 )
-from nextcloudappstore.core.models import App, AppRating, Category, Podcast
+from nextcloudappstore.core.github import GitHubClient, get_download_counts
+from nextcloudappstore.core.models import (
+    App,
+    AppRating,
+    AppRelease,
+    Category,
+    Donation,
+    Podcast,
+)
 from nextcloudappstore.core.serializers import AppRatingSerializer
 from nextcloudappstore.core.versioning import pad_min_version
 
@@ -55,12 +68,27 @@ class AppDetailView(DetailView):
     queryset = App.objects.prefetch_related(
         "releases",
         "screenshots",
+        "videos",
         "co_maintainers",
         "translations",
     ).select_related("owner")
     template_name = "app/detail.html"
     slug_field = "id"
     slug_url_kwarg = "id"
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        hosts = sorted(
+            {
+                f"{parsed.scheme}://{parsed.netloc}"
+                for video in self.object.videos.all()
+                for parsed in (urlparse(video.url),)
+                if parsed.scheme and parsed.netloc
+            }
+        )
+        if hosts:
+            response._csp_update = {"frame-src": hosts}
+        return response
 
     def post(self, request, id):
         post_data = json.loads(request.body) if request.content_type == "application/json" else request.POST
@@ -139,9 +167,13 @@ class AppDetailView(DetailView):
                 context["user_has_rated_app"] = True
             except AppRating.DoesNotExist:
                 pass
+
+        context["donations"] = Donation.objects.filter(app=context["app"])
         context["categories"] = Category.objects.prefetch_related("translations").all()
         context["latest_releases_by_platform_v"] = self.object.latest_releases_by_platform_v()
         context["is_integration"] = self.object.is_integration
+        context["is_outdated"] = self.object.is_outdated()
+
         return context
 
 
@@ -164,21 +196,27 @@ class AppReleasesView(DetailView):
 
         releases = self.object.releases_by_platform_v()
         unstables = self.object.unstable_releases_by_platform_v()
-        versions = set(list(releases.keys()) + list(unstables.keys()))
-        all_releases = list(map(lambda v: (v, releases.get(v, []) + unstables.get(v, [])), versions))
-        context["releases_by_platform_v"] = self._sort_by_platform_v(all_releases)
+        platform_versions = self._sort_by_platform_v(
+            v for v in set(releases) | set(unstables) if releases.get(v) or unstables.get(v)
+        )
+
+        selected_platform = self.request.GET.get("platform")
+        if selected_platform not in platform_versions:
+            selected_platform = next(iter(platform_versions), None)
+        context["platform_versions"] = platform_versions
+        context["selected_platform"] = selected_platform
+        context["releases"] = releases.get(selected_platform, []) + unstables.get(selected_platform, [])
         return context
 
-    def _sort_by_platform_v(self, releases_by_platform, reverse=True):
-        """Sorts a list of tuples like (<platform version>, [releases]) by
-        platform version.
+    def _sort_by_platform_v(self, platform_versions, reverse=True):
+        """Sorts platform versions.
 
-        :param releases_by_platform: A list of tuples.
+        :param platform_versions: An iterable of platform versions.
         :param reverse: Descending order if True, ascending otherwise.
-        :return sorted list of tuples.
+        :return sorted list of platform versions.
         """
 
-        return sorted(releases_by_platform, reverse=reverse, key=lambda v: Version(pad_min_version(v[0])))
+        return sorted(platform_versions, reverse=reverse, key=lambda v: Version(pad_min_version(v)))
 
 
 class CategoryAppListView(ListView):
@@ -187,7 +225,7 @@ class CategoryAppListView(ListView):
     allow_empty = True
 
     def get_queryset(self):
-        order_by = self.request.GET.get("order_by", "rating_overall")
+        order_by = self.request.GET.get("order_by", "relevance")
         ordering = self.request.GET.get("ordering", "desc")
         is_featured = self.request.GET.get("is_featured", False)
         maintainer = self.request.GET.get("maintainer", False)
@@ -196,7 +234,7 @@ class CategoryAppListView(ListView):
         if self.kwargs.get("is_featured_category", False):
             is_featured = "true"
 
-        allowed_order_by = {"name", "last_release", "rating_overall", "rating_recent"}
+        allowed_order_by = {"name", "last_release", "rating_overall", "rating_recent", "relevance"}
         if order_by in allowed_order_by:
             if order_by == "name":
                 order_by = "translations__name"
@@ -207,11 +245,13 @@ class CategoryAppListView(ListView):
 
         lang = get_language_info(get_language())["code"]
         category_id = self.kwargs["id"]
-        queryset = (
-            App.objects.search(self.search_terms, lang)
-            .order_by(*sort_columns)
-            .filter(Q(releases__gt=0) | (Q(is_integration=True) & Q(approved=True)))
-        )
+
+        if order_by == "relevance":
+            queryset = App.objects.search_relevant(self.search_terms, lang)
+        else:
+            queryset = App.objects.search(self.search_terms, lang).order_by(*sort_columns)
+        queryset = queryset.filter(Q(releases__gt=0) | (Q(is_integration=True) & Q(approved=True)))
+
         if maintainer:
             try:
                 user = User.objects.get_by_natural_key(maintainer)
@@ -297,4 +337,24 @@ class AppRegisterView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = AppRegisterForm()
+        return context
+
+
+class AppDownloadStatsView(LoginRequiredMixin, DetailView):
+    template_name = "app/downloads.html"
+    slug_field = "id"
+    slug_url_kwarg = "id"
+    queryset = App.objects.prefetch_related("translations")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.prefetch_related("translations").all()
+        app = self.object
+        if not app.can_update(self.request.user):
+            from django.core.exceptions import PermissionDenied
+
+            raise PermissionDenied()
+        releases = list(AppRelease.objects.filter(app=app).order_by("-last_modified"))
+        client = GitHubClient(settings.GITHUB_API_BASE_URL, settings.GITHUB_API_TOKEN)
+        context["download_stats"] = get_download_counts(releases, client)
         return context

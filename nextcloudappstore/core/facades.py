@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import os
 from collections.abc import Callable, Iterable
 from itertools import chain
@@ -61,21 +66,20 @@ T = TypeVar("T")
 U = TypeVar("U")
 
 
-def flatmap(f: Callable[[T], Iterable[U]], xs: Iterable[T]) -> Iterable[U]:
+def flatmap[T, U](f: Callable[[T], Iterable[U]], xs: Iterable[T]) -> Iterable[U]:
     return chain.from_iterable(map(f, xs))
 
 
-def any_match(predicate: Callable[[T], bool], iterable: Iterable[T]) -> bool:
+def all_match[T](predicate: Callable[[T], bool], iterable: Iterable[T]) -> bool:
     """
     :param predicate: function to test items
     :param iterable: iterable
-    :return: true if a predicate returns true for at least one element in an
-     iterable
+    :return: true if a predicate returns true for all elements in an iterable
     """
-    return any(predicate(entry) for entry in iterable)
+    return all(predicate(entry) for entry in iterable)
 
 
-def distinct(iterable: Iterable[T], criteria: Callable[[T], U]) -> Iterable[T]:
+def distinct[T, U](iterable: Iterable[T], criteria: Callable[[T], U]) -> Iterable[T]:
     """
     :param iterable:
     :param criteria: by default the object in the list. Pass a lambda to choose

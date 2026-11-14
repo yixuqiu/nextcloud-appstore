@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from allauth.account.views import signup
 from allauth.socialaccount.views import signup as social_signup
 from csp.decorators import csp_update
@@ -12,6 +17,7 @@ from nextcloudappstore.core.caching import app_rating_etag
 from nextcloudappstore.core.feeds import AppReleaseAtomFeed, AppReleaseRssFeed
 from nextcloudappstore.core.views import (
     AppDetailView,
+    AppDownloadStatsView,
     AppRatingApi,
     AppRegisterView,
     AppReleasesView,
@@ -23,6 +29,7 @@ from nextcloudappstore.scaffolding.views import (
     AppScaffoldingView,
     IntegrationScaffoldingView,
 )
+from nextcloudappstore.user.views import PasswordResetFromKeyView
 
 admin.site.login = login_required(admin.site.login)
 
@@ -31,6 +38,11 @@ urlpatterns = [
     path("featured", CategoryAppListView.as_view(), {"id": None, "is_featured_category": True}, name="featured"),
     path("signup/", csp_update(**settings.CSP_SIGNUP)(signup), name="account_signup"),
     path("social/signup/", csp_update(**settings.CSP_SIGNUP)(social_signup), name="socialaccount_signup"),
+    re_path(
+        r"^password/reset/key/(?P<uidb36>[0-9A-Za-z]+)-(?P<key>.+)/$",
+        PasswordResetFromKeyView.as_view(),
+        name="account_reset_password_from_key",
+    ),
     path("", include("allauth.urls")),
     re_path(r"^categories/(?P<id>[\w]*)/?$", CategoryAppListView.as_view(), name="category-app-list"),
     re_path(r"^developer/apps/generate/?$", AppScaffoldingView.as_view(), name="app-scaffold"),
@@ -39,6 +51,7 @@ urlpatterns = [
     re_path(r"^developer/apps/new/?$", AppRegisterView.as_view(), name="app-register"),
     re_path(r"^apps/(?P<id>[\w_]+)/?$", AppDetailView.as_view(), name="app-detail"),
     re_path(r"^apps/(?P<id>[\w_]+)/releases/?$", AppReleasesView.as_view(), name="app-releases"),
+    re_path(r"^apps/(?P<id>[\w_]+)/downloads/?$", AppDownloadStatsView.as_view(), name="app-downloads"),
     re_path(r"^apps/(?P<id>[\w_]+)/description/?$", app_description, name="app-description"),
     re_path(r"^apps/(?P<id>[\w_]+)/ratings.json$", etag(app_rating_etag)(AppRatingApi.as_view()), name="app-ratings"),
     path("api/", include("nextcloudappstore.api.urls", namespace="api")),

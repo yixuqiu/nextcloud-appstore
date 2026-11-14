@@ -2,6 +2,11 @@
 Store Production Install (Docker)
 =================================
 
+.. warning::
+
+    We no longer provide support (including enterprise support) for self-hosting the app store, nor maintain this part of the code or documentation.
+    As our code is open-source, you are welcome to reuse this part of the code if you find a way to make it work, but such usage of the app store is at your own risk.
+
 The App Store can be installed using `Docker <https://www.docker.com/>`_. This is still work in progress and therefore not recommended for production.
 
 Benefits and Drawbacks
@@ -275,7 +280,7 @@ The first command will ask for the password.
 
 Configure Social Logins
 -----------------------
-Once the App Store is up and running social login needs to be configured. The App Store uses `django-allauth <https://django-allauth.readthedocs.io>`_ for local and social login. In order to configure these logins, most providers require you to register your app beforehand.
+Once the App Store is up and running social login needs to be configured. The App Store uses `django-allauth <https://docs.allauth.org/en/latest/>`_ for local and social login. In order to configure these logins, most providers require you to register your app beforehand.
 
 **GitHub**
 

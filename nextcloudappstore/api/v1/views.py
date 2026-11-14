@@ -1,12 +1,20 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import json
 import os
+from collections import defaultdict
+from functools import cmp_to_key
 
 import requests
 from django.conf import settings
-from django.db import transaction
+from django.db import connection, transaction
 from django.db.models import Count, Prefetch, Q
 from django.http import FileResponse, Http404
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.views.decorators.gzip import gzip_page
 from jschon import JSON, JSONSchema, create_catalog
 from pymple import Container
@@ -15,8 +23,12 @@ from rest_framework import authentication, parsers, renderers  # type: ignore
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.exceptions import PermissionDenied, ValidationError
-from rest_framework.generics import DestroyAPIView  # type: ignore
-from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.generics import (  # type: ignore
+    DestroyAPIView,
+    GenericAPIView,
+    ListAPIView,
+    get_object_or_404,
+)
 from rest_framework.permissions import IsAdminUser, IsAuthenticated  # type: ignore
 from rest_framework.response import Response  # type: ignore
 from rest_framework.views import APIView
@@ -33,7 +45,9 @@ from nextcloudappstore.api.v1.serializers import (
     NextcloudReleaseSerializer,
 )
 from nextcloudappstore.certificate.validator import CertificateValidator
+from nextcloudappstore.core.enterprise import enterprise_enabled, filter_enterprise
 from nextcloudappstore.core.facades import read_file_contents
+from nextcloudappstore.core.github import GitHubClient, get_download_counts
 from nextcloudappstore.core.models import (
     App,
     AppRating,
@@ -43,12 +57,13 @@ from nextcloudappstore.core.models import (
 )
 from nextcloudappstore.core.permissions import UpdateDeletePermission
 from nextcloudappstore.core.throttling import PostThrottle
-from nextcloudappstore.core.versioning import version_in_spec
+from nextcloudappstore.core.versioning import php_version_compare, version_in_spec
 from nextcloudappstore.user.facades import update_token
 
 BASIC_PREFETCH_LIST = [
     "authors",
     "screenshots",
+    "videos",
     "categories",
     "translations",
 ]
@@ -73,7 +88,43 @@ AA_APP_PREFETCH_LIST = [
     *RELEASES_PREFETCH_LIST,
     "releases__deploy_methods",
     "releases__api_scopes",
+    "releases__environment_variables",
 ]
+
+
+def selectable_release_ids() -> list[int]:
+    """
+    Ids of the releases a Nextcloud server can pick, which apps.json lists for the apps a request may see. A server
+    filters an app's releases on their raw platform and PHP version specs, nightly flag and whether the version is a
+    pre-release, then installs the highest version left according to PHP's version_compare(). Of releases that agree
+    on those four values, only the highest can be picked.
+
+    A set with a version ending in a character other than an ASCII letter or digit is kept whole: PHP before 8.4.22
+    and 8.5.7 orders such versions inconsistently, so which one a server picks depends on how it sorts.
+    """
+    groups = defaultdict(list)
+    releases = (
+        AppRelease.objects.filter(aa_is_system__isnull=True)
+        .order_by()
+        .values_list("id", "app_id", "version", "raw_platform_version_spec", "raw_php_version_spec", "is_nightly")
+    )
+    for release_id, app_id, version, platform_spec, php_spec, is_nightly in releases:
+        groups[app_id, platform_spec, php_spec, is_nightly, "-" in version].append((release_id, version))
+    ids = []
+    for group in groups.values():
+        if not all(version[-1:].isascii() and version[-1:].isalnum() for _, version in group):
+            ids.extend(release_id for release_id, _ in group)
+            continue
+        newest = max((version for _, version in group), key=cmp_to_key(php_version_compare))
+        ids.extend(release_id for release_id, version in group if php_version_compare(version, newest) == 0)
+    return ids
+
+
+class EnterpriseFilterMixin:
+    """Filter out enterprise-only apps unless a valid subscription key is provided."""
+
+    def get_queryset(self):
+        return filter_enterprise(super().get_queryset(), self.request)
 
 
 class CategoryView(ListAPIView):
@@ -92,16 +143,39 @@ class NextcloudReleaseView(ListAPIView):
 
 
 @method_decorator(gzip_page, name="dispatch")
-class AppsView(ListAPIView):
-    queryset = (
-        App.objects.prefetch_related(*APP_PREFETCH_LIST)
-        .annotate(num_releases=Count("releases", filter=Q(releases__aa_is_system__isnull=True)))
-        .filter(Q(num_releases__gt=0) | Q(is_integration=True))
-    )
+class AppsView(EnterpriseFilterMixin, ListAPIView):
+    queryset = App.objects.annotate(
+        num_releases=Count("releases", filter=Q(releases__aa_is_system__isnull=True))
+    ).filter(Q(num_releases__gt=0) | Q(is_integration=True))
     serializer_class = AppSerializer
 
+    def list(self, request, *args, **kwargs):
+        # The release ids and the releases loaded for them must come from one snapshot, or a release replaced in
+        # between is missing. PostgreSQL's default isolation gives each query its own snapshot. The isolation level
+        # can only be set before a transaction's first query, so inside an existing transaction it stays as it is.
+        snapshot = connection.vendor == "postgresql" and connection.get_autocommit()
+        with transaction.atomic():
+            if snapshot:
+                with connection.cursor() as cursor:
+                    cursor.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")
+            return super().list(request, *args, **kwargs)
 
-class AppApiAppsView(ListAPIView):
+    @cached_property
+    def release_ids(self):
+        return selectable_release_ids()
+
+    def get_queryset(self):
+        # A stable and a nightly release can share a version. A server that accepts nightlies installs the first one
+        # listed, so the stable one comes first.
+        releases = AppRelease.objects.filter(id__in=self.release_ids).order_by("-version", "is_nightly")
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(*BASIC_PREFETCH_LIST, Prefetch("releases", queryset=releases), *RELEASES_PREFETCH_LIST)
+        )
+
+
+class AppApiAppsView(EnterpriseFilterMixin, ListAPIView):
     queryset = (
         App.objects.prefetch_related(*AA_APP_PREFETCH_LIST)
         .annotate(num_releases=Count("releases", filter=Q(releases__aa_is_system__isnull=False)))
@@ -110,18 +184,17 @@ class AppApiAppsView(ListAPIView):
     serializer_class = AppApiAppSerializer
 
 
-class AppView(DestroyAPIView):
-    authentication_classes = (
-        authentication.TokenAuthentication,
-        authentication.BasicAuthentication,
-    )
-    permission_classes = (UpdateDeletePermission,)
+class PlatformAppsView(GenericAPIView):
+    """Apps compatible with one Nextcloud version, served at platform/<version>/apps.json."""
+
     serializer_class = AppSerializer
     queryset = App.objects.all()
 
     def get(self, request, *args, **kwargs):
         version = self.kwargs["version"]
         working_apps = App.objects.get_compatible(version, prefetch=APP_PREFETCH_LIST)
+        if not enterprise_enabled(request):
+            working_apps = [app for app in working_apps if not app.is_enterprise_only]
         serializer = self.get_serializer(working_apps, many=True)
         data = self._filter_releases(serializer.data, version)
         return Response(data)
@@ -145,6 +218,18 @@ class AppView(DestroyAPIView):
         return data
 
 
+class AppView(DestroyAPIView):
+    """Deleting an app, at apps/<id>. DELETE only: DRF answers anything else with 405."""
+
+    authentication_classes = (
+        authentication.TokenAuthentication,
+        authentication.BasicAuthentication,
+    )
+    permission_classes = (UpdateDeletePermission,)
+    serializer_class = AppSerializer
+    queryset = App.objects.all()
+
+
 class AppRegisterView(APIView):
     authentication_classes = (
         authentication.TokenAuthentication,
@@ -159,6 +244,7 @@ class AppRegisterView(APIView):
         serializer.is_valid(raise_exception=True)
         signature = serializer.validated_data["signature"].strip()
         certificate = serializer.validated_data["certificate"].strip()
+        is_enterprise_only = serializer.validated_data["is_enterprise_only"]
 
         container = Container()
 
@@ -176,6 +262,7 @@ class AppRegisterView(APIView):
             if app.ownership_transfer_enabled:
                 app.owner = request.user
                 app.ownership_transfer_enabled = False
+                app.is_orphan = False
             elif app.owner != request.user:
                 msg = "Only the app owner is allowed to update the certificate"
                 raise PermissionDenied(msg)
@@ -183,7 +270,9 @@ class AppRegisterView(APIView):
             app.save()
             return Response(status=204)
         except App.DoesNotExist:
-            app = App.objects.create(id=app_id, owner=request.user, certificate=certificate)
+            app = App.objects.create(
+                id=app_id, owner=request.user, certificate=certificate, is_enterprise_only=is_enterprise_only
+            )
             app.set_current_language("en")
             app.description = app_id
             app.name = app_id
@@ -390,3 +479,26 @@ class DiscoverView(APIView):
         except OSError:
             return Response({"error": "Unable to save file."}, status=500)
         return Response({"message": "File saved successfully"}, status=200)
+
+
+class AppDownloadStatsView(APIView):
+    """Return GitHub download counts for all releases of an app.
+
+    Only the app owner and co-maintainers may access this endpoint.
+    Releases not hosted on GitHub (or whose GitHub API call fails) have
+    download_count set to null.
+    """
+
+    authentication_classes = (
+        authentication.TokenAuthentication,
+        authentication.BasicAuthentication,
+    )
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk):
+        app = get_object_or_404(App, pk=pk)
+        if not app.can_update(request.user):
+            raise PermissionDenied()
+        releases = list(AppRelease.objects.filter(app=app).order_by("-last_modified"))
+        client = GitHubClient(settings.GITHUB_API_BASE_URL, settings.GITHUB_API_TOKEN)
+        return Response(get_download_counts(releases, client))

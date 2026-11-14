@@ -266,7 +266,11 @@ This route will return all releases to display inside Nextcloud's apps admin are
 * **Url**: GET /api/v1/platform/{**platform-version**}/apps.json
 * **Url parameters**:
 
-  * **platform-version**: semantic version, digits only: Returns all the apps and their releases that work on this version. If an app has no working releases, the app will be excluded
+  * **platform-version**: semantic version, core digits only: Returns all the apps and their releases that work on this version. If an app has no working releases, the app will be excluded
+
+* **Headers**:
+
+  * **X-NC-Subscription-Key**: string: Nextcloud Enterprise subscription key. If it is valid, enterprise-only apps will also be returned.
 
 * **Authentication**: None
 
@@ -361,15 +365,15 @@ This route will return all releases to display inside Nextcloud's apps admin are
                         "grep"
                     ],
                     "phpVersionSpec": ">=5.6.0",
-                    "platformVersionSpec": ">=9.0.0 <9.2.0",
+                    "platformVersionSpec": ">=31.0.0 <33.0.0",
                     "rawPhpVersionSpec": ">=5.6",
-                    "rawPlatformVersionSpec": ">=10 <=10",
+                    "rawPlatformVersionSpec": ">=31 <=32",
                     "minIntSize": 64,
                     "isNightly": false,
                     "download": "https://github.com/owncloud/news/releases/download/8.8.0/news.tar.gz",
                     "created": "2016-06-25T16:08:56.796646Z",
                     "licenses": [
-                        "agpl"
+                        "AGPL-3.0-or-later"
                     ],
                     "lastModified": "2016-06-25T16:49:25.319425Z",
                     "signature": "909377e1a695bbaa415c10ae087ae1cc48e88066d20a5a7a8beed149e9fad3d5",
@@ -384,6 +388,11 @@ This route will return all releases to display inside Nextcloud's apps admin are
                 {
                     "url": "https://example.com/news.jpg",
                     "smallThumbnail": ""
+                }
+            ],
+            "videos": [
+                {
+                    "url": "https://peertube.tv/videos/embed/dMWVlMwd9ecp5UVAOUhTDt"
                 }
             ],
             "translations": {
@@ -411,6 +420,11 @@ screenshots
 
 smallThumbnail
     Small thumbnail which can be used as preview image. Guaranteed to be HTTPS. Not required, so if not present or an empty string, use the screenshot url instead.
+
+videos
+    PeerTube videos declared in the app's info.xml. Guaranteed to be HTTPS. Each entry has:
+
+    * **url**: Normalized PeerTube embed URL suitable for iframes
 
 download
     Download archive location, guaranteed to be HTTPS
@@ -466,7 +480,7 @@ changelog
     The translated release changelog in Markdown. Can be empty for all languages
 
 version
-    A semantic version without build metadata (e.g. 1.3.0, 1.2.1-alpha.1)
+    A semantic version without any build identifiers (e.g. 1.3.0 for stable releases, 1.2.1-alpha.1 for beta releases)
 
 
 
@@ -476,8 +490,12 @@ Get All Apps and Releases
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 This route will return all releases to display inside Nextcloud's apps admin area.
 
+.. note:: For each app, a release is left out when another release has the same **rawPlatformVersionSpec**, **rawPhpVersionSpec** and **isNightly**, is a pre-release (a version containing **-**) exactly when it is, and has a higher version. Nextcloud filters releases on those values and installs the highest version left, so such a release can never be picked. Releases that share those values are all kept if one of their versions ends in a character other than a letter or digit. A stable release is listed before a nightly release with the same version, so a server that accepts nightlies installs the stable one. :ref:`api-all-compatible-releases` still returns every compatible release.
+
 * **Url**: GET /api/v1/apps.json
-* **Url parameters**: None
+* **Headers**:
+
+  * **X-NC-Subscription-Key**: string: Nextcloud Enterprise subscription key. If it is valid, enterprise-only apps will also be returned.
 
 * **Authentication**: None
 
@@ -572,15 +590,15 @@ This route will return all releases to display inside Nextcloud's apps admin are
                         "grep"
                     ],
                     "phpVersionSpec": ">=5.6.0",
-                    "platformVersionSpec": ">=9.0.0 <9.2.0",
+                    "platformVersionSpec": ">=31.0.0 <33.0.0",
                     "rawPhpVersionSpec": ">=5.6",
-                    "rawPlatformVersionSpec": ">=10 <=10",
+                    "rawPlatformVersionSpec": ">=31 <=32",
                     "minIntSize": 64,
                     "isNightly": false,
                     "download": "https://github.com/owncloud/news/releases/download/8.8.0/news.tar.gz",
                     "created": "2016-06-25T16:08:56.796646Z",
                     "licenses": [
-                        "agpl"
+                        "AGPL-3.0-or-later"
                     ],
                     "lastModified": "2016-06-25T16:49:25.319425Z",
                     "signature": "909377e1a695bbaa415c10ae087ae1cc48e88066d20a5a7a8beed149e9fad3d5",
@@ -595,6 +613,11 @@ This route will return all releases to display inside Nextcloud's apps admin are
                 {
                     "url": "https://example.com/news.jpg",
                     "smallThumbnail": ""
+                }
+            ],
+            "videos": [
+                {
+                    "url": "https://peertube.tv/videos/embed/dMWVlMwd9ecp5UVAOUhTDt"
                 }
             ],
             "translations": {
@@ -622,6 +645,11 @@ screenshots
 
 smallThumbnail
     Small thumbnail which can be used as preview image. Guaranteed to be HTTPS. Not required, so if not present or an empty string, use the screenshot url instead.
+
+videos
+    PeerTube videos declared in the app's info.xml. Guaranteed to be HTTPS. Each entry has:
+
+    * **url**: Normalized PeerTube embed URL suitable for iframes
 
 download
     Download archive location, guaranteed to be HTTPS
@@ -677,7 +705,7 @@ changelog
     The translated release changelog in Markdown. Can be empty for all languages
 
 version
-    A semantic version without build metadata (e.g. 1.3.0, 1.2.1-alpha.1)
+    A semantic version without any build identifiers (e.g. 1.3.0 for stable releases, 1.2.1-alpha.1 for beta releases)
 
 
 
@@ -700,17 +728,20 @@ Before you can upload release you first need to register its app id. To do that 
 
         echo -n "APP_ID" | openssl dgst -sha512 -sign ~/.nextcloud/certificates/APP_ID.key | openssl base64
 
+  * **is_enterprise_only**: A boolean flag to control whether or not to designate the app as enterprise-only. This cannot be changed after initial app registration
+
   .. code-block:: json
 
       {
           "certificate": "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEojCCA4qgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwezELMAkGA1UEBhMCREUx\r\nGzAZBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzEXMBUGA1UECgwOTmV4dGNsb3Vk\r\nIEdtYkgxNjA0BgNVBAMMLU5leHRjbG91ZCBDb2RlIFNpZ25pbmcgSW50ZXJtZWRp\r\nYXRlIEF1dGhvcml0eTAeFw0xNjA2MTIyMTA1MDZaFw00MTA2MDYyMTA1MDZaMGYx\r\nCzAJBgNVBAYTAkRFMRswGQYDVQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxEjAQBgNV\r\nBAcMCVN0dXR0Z2FydDEXMBUGA1UECgwOTmV4dGNsb3VkIEdtYkgxDTALBgNVBAMM\r\nBGNvcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUxcrn2DC892IX\r\n8+dJjZVh9YeHF65n2ha886oeAizOuHBdWBfzqt+GoUYTOjqZF93HZMcwy0P+xyCf\r\nQqak5Ke9dybN06RXUuGP45k9UYBp03qzlUzCDalrkj+Jd30LqcSC1sjRTsfuhc+u\r\nvH1IBuBnf7SMUJUcoEffbmmpAPlEcLHxlUGlGnz0q1e8UFzjbEFj3JucMO4ys35F\r\nqZS4dhvCngQhRW3DaMlQLXEUL9k3kFV+BzlkPzVZEtSmk4HJujFCnZj1vMcjQBg\/\r\nBqq1HCmUB6tulnGcxUzt\/Z\/oSIgnuGyENeke077W3EyryINL7EIyD4Xp7sxLizTM\r\nFCFCjjH1AgMBAAGjggFDMIIBPzAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIG\r\nQDAzBglghkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRp\r\nZmljYXRlMB0GA1UdDgQWBBQwc1H9AL8pRlW2e5SLCfPPqtqc0DCBpQYDVR0jBIGd\r\nMIGagBRt6m6qqTcsPIktFz79Ru7DnnjtdKF+pHwwejELMAkGA1UEBhMCREUxGzAZ\r\nBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzESMBAGA1UEBwwJU3R1dHRnYXJ0MRcw\r\nFQYDVQQKDA5OZXh0Y2xvdWQgR21iSDEhMB8GA1UEAwwYTmV4dGNsb3VkIFJvb3Qg\r\nQXV0aG9yaXR5ggIQADAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUH\r\nAwEwDQYJKoZIhvcNAQELBQADggEBADZ6+HV\/+0NEH3nahTBFxO6nKyR\/VWigACH0\r\nnaV0ecTcoQwDjKDNNFr+4S1WlHdwITlnNabC7v9rZ\/6QvbkrOTuO9fOR6azp1EwW\r\n2pixWqj0Sb9\/dSIVRpSq+jpBE6JAiX44dSR7zoBxRB8DgVO2Afy0s80xEpr5JAzb\r\nNYuPS7M5UHdAv2dr16fDcDIvn+vk92KpNh1NTeZFjBbRVQ9DXrgkRGW34TK8uSLI\r\nYG6jnfJ6eJgTaO431ywWPXNg1mUMaT\/+QBOgB299QVCKQU+lcZWptQt+RdsJUm46\r\nNY\/nARy4Oi4uOe88SuWITj9KhrFmEvrUlgM8FvoXA1ldrR7KiEg=\r\n-----END CERTIFICATE-----",
-          "signature": "65e613318107bceb131af5cf8b71e773b79e1a9476506f502c8e2017b52aba15"
+          "signature": "65e613318107bceb131af5cf8b71e773b79e1a9476506f502c8e2017b52aba15",
+          "is_enterprise_only": false
       }
 
 
 * **Example CURL request**::
 
-        curl -X POST -u "user:password" https://apps.nextcloud.com/api/v1/apps -H "Content-Type: application/json" -d '{"certificate": "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEojCCA4qgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwezELMAkGA1UEBhMCREUx\r\nGzAZBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzEXMBUGA1UECgwOTmV4dGNsb3Vk\r\nIEdtYkgxNjA0BgNVBAMMLU5leHRjbG91ZCBDb2RlIFNpZ25pbmcgSW50ZXJtZWRp\r\nYXRlIEF1dGhvcml0eTAeFw0xNjA2MTIyMTA1MDZaFw00MTA2MDYyMTA1MDZaMGYx\r\nCzAJBgNVBAYTAkRFMRswGQYDVQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxEjAQBgNV\r\nBAcMCVN0dXR0Z2FydDEXMBUGA1UECgwOTmV4dGNsb3VkIEdtYkgxDTALBgNVBAMM\r\nBGNvcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUxcrn2DC892IX\r\n8+dJjZVh9YeHF65n2ha886oeAizOuHBdWBfzqt+GoUYTOjqZF93HZMcwy0P+xyCf\r\nQqak5Ke9dybN06RXUuGP45k9UYBp03qzlUzCDalrkj+Jd30LqcSC1sjRTsfuhc+u\r\nvH1IBuBnf7SMUJUcoEffbmmpAPlEcLHxlUGlGnz0q1e8UFzjbEFj3JucMO4ys35F\r\nqZS4dhvCngQhRW3DaMlQLXEUL9k3kFV+BzlkPzVZEtSmk4HJujFCnZj1vMcjQBg\/\r\nBqq1HCmUB6tulnGcxUzt\/Z\/oSIgnuGyENeke077W3EyryINL7EIyD4Xp7sxLizTM\r\nFCFCjjH1AgMBAAGjggFDMIIBPzAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIG\r\nQDAzBglghkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRp\r\nZmljYXRlMB0GA1UdDgQWBBQwc1H9AL8pRlW2e5SLCfPPqtqc0DCBpQYDVR0jBIGd\r\nMIGagBRt6m6qqTcsPIktFz79Ru7DnnjtdKF+pHwwejELMAkGA1UEBhMCREUxGzAZ\r\nBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzESMBAGA1UEBwwJU3R1dHRnYXJ0MRcw\r\nFQYDVQQKDA5OZXh0Y2xvdWQgR21iSDEhMB8GA1UEAwwYTmV4dGNsb3VkIFJvb3Qg\r\nQXV0aG9yaXR5ggIQADAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUH\r\nAwEwDQYJKoZIhvcNAQELBQADggEBADZ6+HV\/+0NEH3nahTBFxO6nKyR\/VWigACH0\r\nnaV0ecTcoQwDjKDNNFr+4S1WlHdwITlnNabC7v9rZ\/6QvbkrOTuO9fOR6azp1EwW\r\n2pixWqj0Sb9\/dSIVRpSq+jpBE6JAiX44dSR7zoBxRB8DgVO2Afy0s80xEpr5JAzb\r\nNYuPS7M5UHdAv2dr16fDcDIvn+vk92KpNh1NTeZFjBbRVQ9DXrgkRGW34TK8uSLI\r\nYG6jnfJ6eJgTaO431ywWPXNg1mUMaT\/+QBOgB299QVCKQU+lcZWptQt+RdsJUm46\r\nNY\/nARy4Oi4uOe88SuWITj9KhrFmEvrUlgM8FvoXA1ldrR7KiEg=\r\n-----END CERTIFICATE-----","signature": "65e613318107bceb131af5cf8b71e773b79e1a9476506f502c8e2017b52aba15"}'
+        curl -X POST -u "user:password" https://apps.nextcloud.com/api/v1/apps -H "Content-Type: application/json" -d '{"certificate": "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEojCCA4qgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwezELMAkGA1UEBhMCREUx\r\nGzAZBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzEXMBUGA1UECgwOTmV4dGNsb3Vk\r\nIEdtYkgxNjA0BgNVBAMMLU5leHRjbG91ZCBDb2RlIFNpZ25pbmcgSW50ZXJtZWRp\r\nYXRlIEF1dGhvcml0eTAeFw0xNjA2MTIyMTA1MDZaFw00MTA2MDYyMTA1MDZaMGYx\r\nCzAJBgNVBAYTAkRFMRswGQYDVQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxEjAQBgNV\r\nBAcMCVN0dXR0Z2FydDEXMBUGA1UECgwOTmV4dGNsb3VkIEdtYkgxDTALBgNVBAMM\r\nBGNvcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUxcrn2DC892IX\r\n8+dJjZVh9YeHF65n2ha886oeAizOuHBdWBfzqt+GoUYTOjqZF93HZMcwy0P+xyCf\r\nQqak5Ke9dybN06RXUuGP45k9UYBp03qzlUzCDalrkj+Jd30LqcSC1sjRTsfuhc+u\r\nvH1IBuBnf7SMUJUcoEffbmmpAPlEcLHxlUGlGnz0q1e8UFzjbEFj3JucMO4ys35F\r\nqZS4dhvCngQhRW3DaMlQLXEUL9k3kFV+BzlkPzVZEtSmk4HJujFCnZj1vMcjQBg\/\r\nBqq1HCmUB6tulnGcxUzt\/Z\/oSIgnuGyENeke077W3EyryINL7EIyD4Xp7sxLizTM\r\nFCFCjjH1AgMBAAGjggFDMIIBPzAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIG\r\nQDAzBglghkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRp\r\nZmljYXRlMB0GA1UdDgQWBBQwc1H9AL8pRlW2e5SLCfPPqtqc0DCBpQYDVR0jBIGd\r\nMIGagBRt6m6qqTcsPIktFz79Ru7DnnjtdKF+pHwwejELMAkGA1UEBhMCREUxGzAZ\r\nBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzESMBAGA1UEBwwJU3R1dHRnYXJ0MRcw\r\nFQYDVQQKDA5OZXh0Y2xvdWQgR21iSDEhMB8GA1UEAwwYTmV4dGNsb3VkIFJvb3Qg\r\nQXV0aG9yaXR5ggIQADAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUH\r\nAwEwDQYJKoZIhvcNAQELBQADggEBADZ6+HV\/+0NEH3nahTBFxO6nKyR\/VWigACH0\r\nnaV0ecTcoQwDjKDNNFr+4S1WlHdwITlnNabC7v9rZ\/6QvbkrOTuO9fOR6azp1EwW\r\n2pixWqj0Sb9\/dSIVRpSq+jpBE6JAiX44dSR7zoBxRB8DgVO2Afy0s80xEpr5JAzb\r\nNYuPS7M5UHdAv2dr16fDcDIvn+vk92KpNh1NTeZFjBbRVQ9DXrgkRGW34TK8uSLI\r\nYG6jnfJ6eJgTaO431ywWPXNg1mUMaT\/+QBOgB299QVCKQU+lcZWptQt+RdsJUm46\r\nNY\/nARy4Oi4uOe88SuWITj9KhrFmEvrUlgM8FvoXA1ldrR7KiEg=\r\n-----END CERTIFICATE-----","signature": "65e613318107bceb131af5cf8b71e773b79e1a9476506f502c8e2017b52aba15", "is_enterprise_only": false}'
 
 * **Returns**:
 
@@ -783,6 +814,7 @@ If the app release version is the latest version, everything is updated. If it's
   * bugs
   * website
   * screenshot
+  * video
 
 
 For more information about validation and which **info.xml** fields are parsed, see :ref:`app-metadata`
@@ -798,7 +830,7 @@ Only app owners or co-maintainers are allowed to delete an app release. The owne
 * **Url parameters**:
 
  * **app-id**: app id, lower case ASCII characters and underscores are allowed
- * **app-version**: app version, semantic version, digits only
+ * **app-version**: app version, semantic version without any build identifiers
 
 * **Authentication**: Basic, Token
 
@@ -827,7 +859,7 @@ Only app owners or co-maintainers are allowed to delete a nightly app release. T
 * **Url parameters**:
 
  * **app-id**: app id, lower case ASCII characters and underscores are allowed
- * **app-version**: app version, semantic version, digits only
+ * **app-version**: app version, semantic version without any build identifiers
 
 * **Authentication**: Basic, Token
 

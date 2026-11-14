@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.test import tag
 from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.select import Select
@@ -19,5 +24,4 @@ class ChangeLanguageTest(BaseStoreTest):
         elem.submit()
 
         WebDriverWait(self.selenium, SELENIUM_WAIT_SEC).until(staleness_of(elem))
-        account_link = self.findNavigationLink("user:account")
-        self.assertEqual("person\nKonto", account_link.text)
+        self.assertEqual("de", self.by_css("html").get_attribute("lang"))

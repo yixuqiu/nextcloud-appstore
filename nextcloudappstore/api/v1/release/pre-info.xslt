@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <!--
+      - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+      - SPDX-License-Identifier: AGPL-3.0-or-later
+    -->
     <xsl:template match="/info">
         <info>
             <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
@@ -16,7 +20,21 @@
             <xsl:copy-of select="version"/>
             <xsl:for-each select="licence">
                 <licence>
-                    <xsl:value-of select="translate(., $uppercase, $lowercase)"/>
+                    <!--
+                        convert deprecated shorthand aliases to full SPDX identifiers where possible,
+                        leave agpl/gpl3 aliases as is for now (A/GPL-3.0 are also deprecated and thus not added to list of valid licenses)
+                    -->
+                    <xsl:variable name="licenseAlias" select="translate(., $uppercase, $lowercase)"/>
+                    <xsl:choose>
+                        <xsl:when test="$licenseAlias = 'agpl'">agpl</xsl:when>
+                        <xsl:when test="$licenseAlias = 'apache'">Apache-2.0</xsl:when>
+                        <xsl:when test="$licenseAlias = 'gpl3'">gpl3</xsl:when>
+                        <xsl:when test="$licenseAlias = 'mit'">MIT</xsl:when>
+                        <xsl:when test="$licenseAlias = 'mpl'">MPL-2.0</xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </licence>
             </xsl:for-each>
             <xsl:copy-of select="author"/>
@@ -31,7 +49,9 @@
             <xsl:copy-of select="discussion"/>
             <xsl:copy-of select="bugs"/>
             <xsl:copy-of select="repository"/>
+            <xsl:copy-of select="video"/>
             <xsl:copy-of select="screenshot"/>
+            <xsl:copy-of select="donation"/>
             <xsl:apply-templates select="dependencies"/>
             <xsl:copy-of select="background-jobs"/>
             <xsl:apply-templates select="repair-steps"/>
@@ -136,6 +156,7 @@
             <xsl:copy-of select="lib"/>
             <xsl:copy-of select="owncloud"/>
             <xsl:copy-of select="nextcloud"/>
+            <xsl:copy-of select="backend"/>
         </dependencies>
     </xsl:template>
 
@@ -154,6 +175,7 @@
             <xsl:apply-templates select="docker-install"/>
             <xsl:copy-of select="scopes"/>
             <xsl:copy-of select="system"/>
+            <xsl:apply-templates select="environment-variables"/>
         </external-app>
     </xsl:template>
 
@@ -163,6 +185,21 @@
             <xsl:copy-of select="image"/>
             <xsl:copy-of select="image-tag"/>
         </docker-install>
+    </xsl:template>
+
+    <xsl:template match="environment-variables">
+        <environment-variables>
+            <xsl:apply-templates select="variable"/>
+        </environment-variables>
+    </xsl:template>
+
+    <xsl:template match="variable">
+        <variable>
+            <xsl:copy-of select="name"/>
+            <xsl:copy-of select="display-name"/>
+            <xsl:copy-of select="description"/>
+            <xsl:copy-of select="default"/>
+        </variable>
     </xsl:template>
 
 </xsl:stylesheet>

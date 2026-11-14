@@ -1,3 +1,24 @@
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+.skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    padding: 8px 16px;
+    background-color: var(--color-primary);
+    font-weight: bold;
+    border-radius: 0 0 var(--border-radius) 0;
+    z-index: 9999;
+}
+
+.skip-to-content:focus {
+    top: 0;
+    color: #fff;
+}
+
 html,
 body {
     margin: 0;
@@ -60,6 +81,11 @@ body {
     padding: 2px 8px;
     border: 1px solid #aaa;
     border-radius: 3px;
+}
+
+.tag-danger {
+    color: var(--color-error);
+    border: 1px solid var(--color-error-hover);
 }
 
 #footer {
@@ -234,7 +260,7 @@ body {
     align-items: center;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1199px) {
     .banner {
         max-height: 100%;
     }
@@ -584,7 +610,23 @@ form .text-danger {
 }
 
 .sorting {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     margin: 0 15px 15px 15px;
+    padding: 0;
+}
+
+.sorting > li {
+    float: none;
+}
+
+.sorting li.filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: auto;
 }
 
 .sorting .glyphicon {
@@ -720,10 +762,12 @@ form .text-danger {
     }
 }
 
-.app-meta h5 {
+.app-meta h2 {
     font-weight: 700;
     color: #000;
     font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .app-score-image {
@@ -766,7 +810,8 @@ form .text-danger {
     max-width: 100%;
 }
 
-.app-meta p {
+.app-meta p,
+.app-meta ul.authors {
     padding-bottom: 15px;
 }
 
@@ -789,10 +834,12 @@ form .text-danger {
     content: "";
 }
 
-.app-meta .resources ul  {
+.app-meta ul.authors,
+.app-meta .resources ul {
     padding-left: 20px;
 }
 
+.app-meta ul.authors li:before,
 .app-meta .resources ul li:before {
     width: 5px;
     height: 5px;
@@ -833,32 +880,6 @@ form .text-danger {
 
 .app-download table td.nightly-channel-column {
     color: var(--color-error-hover);
-}
-
-.accordion-item.unstable .accordion-title {
-    background-color: #ffe8e4 !important;
-    border-color: #ffe8e4 !important;
-}
-
-.accordion-item.unstable .accordion-content {
-    border-color: #ffe8e4 !important;
-}
-
-.accordion-item.unstable .accordion-content:before {
-    display: inline-block;
-    content: 'Unstable';
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: #e0543d;
-    font-weight: normal;
-}
-
-.accordion-item.unstable .accordion-content .release-download {
-    background-color: #e0543d;
-}
-
-.accordion-item.unstable .accordion-content .release-download:after {
-    content: '(Unstable)';
 }
 
 .center {
@@ -920,11 +941,15 @@ address {
     font-weight: 700;
 }
 
-.interact-section h5 {
+.interact-section h2,
+.donate-section h2,
+.support-section h2 {
     margin-bottom: 20px;
 }
 
-.interact-section a, .interact-section button {
+.interact-section a, .interact-section button,
+.donate-section a, .donate-section button,
+.support-section a, .support-section button {
     margin-bottom: 10px;
 }
 
@@ -1092,6 +1117,7 @@ form .form-group input[type=checkbox] {
 
 .certificate {
     font-family: monospace;
+    word-break: break-all;
 }
 
 #app-generate-form select[multiple] {
@@ -1120,4 +1146,17 @@ form .form-group input[type=checkbox] {
 
 .account-content {
     margin-bottom: 60px;
+}
+
+.deprecate-apps th:not(:first-child),
+.deprecate-apps td:not(:first-child),
+.transfer-apps th:not(:first-child),
+.transfer-apps td:not(:first-child) {
+    text-align: center;
+}
+
+.deprecate-apps form,
+.transfer-apps form {
+    display: flex;
+    justify-content: center;
 }

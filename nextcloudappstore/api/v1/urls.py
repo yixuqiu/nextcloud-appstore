@@ -1,8 +1,14 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.urls import re_path
 from django.views.decorators.http import condition, etag
 
 from nextcloudappstore.api.v1.views import (
     AppApiAppsView,
+    AppDownloadStatsView,
     AppRatingView,
     AppRegisterView,
     AppReleaseView,
@@ -11,6 +17,7 @@ from nextcloudappstore.api.v1.views import (
     CategoryView,
     DiscoverView,
     NextcloudReleaseView,
+    PlatformAppsView,
     RegenerateAuthToken,
     SessionObtainAuthToken,
 )
@@ -33,13 +40,14 @@ urlpatterns = [
     re_path(r"^platforms\.json$", etag(nextcloud_release_etag)(NextcloudReleaseView.as_view()), name="platforms"),
     re_path(
         r"^platform/(?P<version>\d+\.\d+\.\d+)/apps\.json$",
-        condition(apps_etag, apps_last_modified)(AppView.as_view()),
+        condition(apps_etag, apps_last_modified)(PlatformAppsView.as_view()),
         name="app",
     ),
     re_path(r"^apps\.json$", condition(apps_all_etag, apps_all_last_modified)(AppsView.as_view()), name="apps"),
     re_path(r"^appapi_apps\.json$", etag(apps_all_etag)(AppApiAppsView.as_view()), name="appapi_apps"),
     re_path(r"^apps/releases/?$", AppReleaseView.as_view(), name="app-release-create"),
     re_path(r"^apps/?$", AppRegisterView.as_view(), name="app-register"),
+    re_path(r"^apps/(?P<pk>[a-z0-9_]+)/downloads/?$", AppDownloadStatsView.as_view(), name="app-download-stats"),
     re_path(r"^apps/(?P<pk>[a-z0-9_]+)/?$", AppView.as_view(), name="app-delete"),
     re_path(r"^ratings.json$", etag(app_ratings_etag)(AppRatingView.as_view()), name="app-ratings"),
     re_path(

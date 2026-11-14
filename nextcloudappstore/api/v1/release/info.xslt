@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <!--
+      - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+      - SPDX-License-Identifier: AGPL-3.0-or-later
+    -->
     <xsl:template match="/info">
         <app>
             <!-- must have attributes -->
@@ -83,6 +87,19 @@
                 </xsl:for-each>
             </authors>
 
+            <videos type="list">
+                <xsl:for-each select="video">
+                    <video>
+                        <url>
+                            <xsl:value-of select="."/>
+                        </url>
+                        <ordering type="int">
+                            <xsl:value-of select="position()"/>
+                        </ordering>
+                    </video>
+                </xsl:for-each>
+            </videos>
+
             <screenshots type="list">
                 <xsl:for-each select="screenshot">
                     <screenshot>
@@ -100,6 +117,39 @@
             </screenshots>
 
             <!-- optional elements need defaults -->
+
+            <donations type="list">
+                <xsl:for-each select="donation">
+                    <donation>
+                        <url>
+                            <xsl:value-of select="."/>
+                        </url>
+                        <xsl:choose>
+                            <xsl:when test="@title">
+                                <title>
+                                    <xsl:value-of select="@title"/>
+                                </title>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <title>Donate to support this app</title>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="@type">
+                                <type>
+                                    <xsl:value-of select="@type"/>
+                                </type>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <type>other</type>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <ordering type="int">
+                            <xsl:value-of select="position()"/>
+                        </ordering>
+                    </donation>
+                </xsl:for-each>
+            </donations>
 
             <xsl:if test="documentation/admin[starts-with(., 'https://')]">
                 <admin-docs>
@@ -175,6 +225,26 @@
             <system type="boolean">
                 <xsl:value-of select="system"/>
             </system>
+            <environment-variables type="list">
+            <xsl:for-each select="environment-variables/variable">
+                <variable>
+                    <name>
+                        <xsl:value-of select="name"/>
+                    </name>
+                    <display-name>
+                        <xsl:value-of select="display-name"/>
+                    </display-name>
+                    <description>
+                        <xsl:value-of select="description"/>
+                    </description>
+                    <xsl:if test="default">
+                        <default>
+                            <xsl:value-of select="default"/>
+                        </default>
+                    </xsl:if>
+                </variable>
+            </xsl:for-each>
+        </environment-variables>
         </external-app>
     </xsl:template>
 

@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import json
 from copy import deepcopy
 
@@ -41,21 +46,23 @@ class ParserTest(TestCase):
                 "discussion": None,
                 "website": None,
                 "issue_tracker": "https://github.com/nextcloud/news/issues",
+                "videos": [],
                 "screenshots": [],
                 "categories": [{"category": {"id": "multimedia"}}],
+                "donations": [],
                 "release": {
                     "databases": [],
-                    "licenses": [{"license": {"id": "agpl"}}],
+                    "licenses": [{"license": {"id": "AGPL-3.0-or-later"}}],
                     "min_int_size": 32,
                     "php_extensions": [],
                     "php_max_version": "*",
                     "php_min_version": "*",
                     "raw_php_max_version": "*",
                     "raw_php_min_version": "*",
-                    "platform_max_version": "13.0.0",
-                    "platform_min_version": "11.0.0",
-                    "raw_platform_max_version": "12",
-                    "raw_platform_min_version": "11",
+                    "platform_max_version": "33.0.0",
+                    "platform_min_version": "31.0.0",
+                    "raw_platform_max_version": "32",
+                    "raw_platform_min_version": "31",
                     "shell_commands": [],
                     "version": "8.8.2",
                 },
@@ -89,6 +96,11 @@ class ParserTest(TestCase):
         xml = self._get_contents("data/infoxmls/digits.xml")
         result = parse_app_metadata(xml, self.config.info_schema, self.config.pre_info_xslt, self.config.info_xslt)
         self.assertEqual("twofactor_u2f", result["app"]["id"])
+
+    def test_parse_too_long_id(self):
+        xml = self._get_contents("data/infoxmls/toolongid.xml")
+        with self.assertRaises(InvalidAppMetadataXmlException):
+            parse_app_metadata(xml, self.config.info_schema, self.config.pre_info_xslt, self.config.info_xslt)
 
     def test_parse_invalid_elements(self):
         xml = self._get_contents("data/infoxmls/invalid-elements.xml")
@@ -504,9 +516,32 @@ class ParserTest(TestCase):
                     {"screenshot": {"url": "https://example.com/1.png", "small_thumbnail": None, "ordering": 1}},
                     {"screenshot": {"url": "https://example.com/2.jpg", "small_thumbnail": None, "ordering": 2}},
                 ],
+                "videos": [],
+                "donations": [],
             }
         }
         self.assertDictEqual(expected, result)
+
+    def test_parse_videos(self):
+        xml = self._get_contents("data/infoxmls/videos.xml")
+        result = parse_app_metadata(xml, self.config.info_schema, self.config.pre_info_xslt, self.config.info_xslt)
+        self.assertEqual(
+            [
+                {
+                    "video": {
+                        "url": "https://peertube.tv/w/dMWVlMwd9ecp5UVAOUhTDt",
+                        "ordering": 1,
+                    }
+                },
+                {
+                    "video": {
+                        "url": "https://peertube.tv/videos/embed/TpUpEIu3PkYqljmQw7T0jR",
+                        "ordering": 2,
+                    }
+                },
+            ],
+            result["app"]["videos"],
+        )
 
     def test_parse_changelog_empty(self):
         changelog = parse_changelog("", "9.0")
@@ -569,6 +604,23 @@ class ParserTest(TestCase):
         }
         assert r_ex_app["scopes"] == [{"value": "FILES"}, {"value": "NOTIFICATIONS"}, {"value": "TALK"}]
         assert r_ex_app["system"] == "true"
+        assert r_ex_app["environment_variables"] == [
+            {
+                "variable": {
+                    "name": "SOME_VALUE1",
+                    "display_name": "Display name 1",
+                    "description": "Some useful description of it",
+                }
+            },
+            {
+                "variable": {
+                    "name": "SOME_VALUE2",
+                    "display_name": "Display name 2",
+                    "description": "Example of second variable with the 'default' value",
+                    "default": "0",
+                }
+            },
+        ]
 
     def test_appapi_minimal(self):
         xml = self._get_contents("data/infoxmls/app_api_minimal.xml")
@@ -581,6 +633,7 @@ class ParserTest(TestCase):
             "registry": "ghcr.io",
         }
         assert r_ex_app["scopes"] == []
+        assert r_ex_app["environment_variables"] == []
 
     def _get_contents(self, target):
         path = self.get_path(target)

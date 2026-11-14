@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
@@ -80,7 +85,9 @@ class AppReleaseTest(ApiTest):
 
     def test_create_unauthenticated(self):
         self.create_release(self.user)
-        response = self.api_client.post(self.create_url, data={"download": "https://download.com"}, format="json")
+        response = self.api_client.post(
+            self.create_url, data={"download": "https://download.com/somefile.tar.gz"}, format="json"
+        )
         self.assertEqual(401, response.status_code)
 
     @patch.object(AppReleaseProvider, "get_release_info")
@@ -93,7 +100,7 @@ class AppReleaseTest(ApiTest):
         response = self.api_client.post(
             self.create_url,
             data={
-                "download": "https://download.com",
+                "download": "https://download.com/somefile.tar.gz",
                 "signature": "sign",
             },
             format="json",
@@ -111,7 +118,7 @@ class AppReleaseTest(ApiTest):
             response = self.api_client.post(
                 self.create_url,
                 data={
-                    "download": "https://download.com",
+                    "download": "https://download.com/somefile.tar.gz",
                     "signature": "sign",
                 },
                 format="json",
@@ -127,7 +134,7 @@ class AppReleaseTest(ApiTest):
             response = self.api_client.post(
                 self.create_url,
                 data={
-                    "download": "https://download.com",
+                    "download": "https://download.com/somefile.tar.gz",
                     "signature": "sign",
                 },
                 format="json",
@@ -141,7 +148,7 @@ class AppReleaseTest(ApiTest):
         response = self.api_client.post(
             self.create_url,
             data={
-                "download": "http://download.com",
+                "download": "http://download.com/somefile.tar.gz",
                 "signature": "sign",
             },
             format="json",

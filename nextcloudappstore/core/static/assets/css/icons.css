@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 :root {
     --original-icon-category-all-dark: url('../img/icons/categories/all-apps.svg');
     --original-icon-category-all-white: url('../img/icons/categories/all-apps-white.svg');
@@ -31,28 +36,63 @@
     --original-icon-category-workflow-white: url('../img/icons/categories/clipboard-flow-white.svg');
     --original-icon-category-featured-dark: url('../img/icons/categories/featured.svg');
     --original-icon-category-featured-white: url('../img/icons/categories/featured-white.svg');
+    --original-icon-category-ai-dark:   url('../img/icons/categories/ai.svg');
+    --original-icon-category-ai-white:  url('../img/icons/categories/ai-white.svg');
 
     --original-icon-source-fork-dark: url('../img/icons/footer/source-fork.svg');
     --original-icon-source-fork-white: url('../img/icons/footer/source-fork-white.svg');
     --original-icon-text-box-dark: url('../img/icons/footer/text-box.svg');
     --original-icon-text-box-white: url('../img/icons/footer/text-box-white.svg');
+    --original-icon-text-box-outline-dark: url('../img/icons/footer/text-box-outline.svg');
+    --original-icon-text-box-outline-white: url('../img/icons/footer/text-box-outline-white.svg');
     --original-icon-note-text-dark: url('../img/icons/footer/note-text.svg');
     --original-icon-note-text-white: url('../img/icons/footer/note-text-white.svg');
+    --original-icon-note-text-outline-dark: url('../img/icons/footer/note-text-outline.svg');
+    --original-icon-note-text-outline-white: url('../img/icons/footer/note-text-outline-white.svg');
     --original-icon-bug-dark: url('../img/icons/detail/bug.svg');
     --original-icon-bug-white: url('../img/icons/detail/bug-white.svg');
+    --original-icon-bar-chart-dark: url('../img/icons/detail/bar-chart.svg');
+    --original-icon-bar-chart-white: url('../img/icons/detail/bar-chart-white.svg');
+    --original-icon-bug-outline-dark: url('../img/icons/detail/bug-outline.svg');
+    --original-icon-bug-outline-white: url('../img/icons/detail/bug-outline-white.svg');
     --original-icon-comment-question-dark: url('../img/icons/detail/comment-question.svg');
     --original-icon-comment-question-white: url('../img/icons/detail/comment-question-white.svg');
+    --original-icon-comment-question-outline-dark: url('../img/icons/detail/comment-question-outline.svg');
+    --original-icon-comment-question-outline-white: url('../img/icons/detail/comment-question-outline-white.svg');
     --original-icon-feature-search-dark: url('../img/icons/detail/feature-search.svg');
     --original-icon-feature-search-white: url('../img/icons/detail/feature-search-white.svg');
+    --original-icon-feature-search-outline-dark: url('../img/icons/detail/feature-search-outline.svg');
+    --original-icon-feature-search-outline-white: url('../img/icons/detail/feature-search-outline-white.svg');
+    --original-icon-donate-paypal-dark: url('../img/icons/detail/donate-paypal.svg');
+    --original-icon-donate-paypal-white: url('../img/icons/detail/donate-paypal-white.svg');
+    --original-icon-donate-stripe-dark: url('../img/icons/detail/donate-stripe.svg');
+    --original-icon-donate-stripe-white: url('../img/icons/detail/donate-stripe-white.svg');
+    --original-icon-donate-other-dark: url('../img/icons/detail/donate-other.svg');
+    --original-icon-donate-other-white: url('../img/icons/detail/donate-other-white.svg');
+    --original-icon-mail-dark: url('../img/icons/detail/mail.svg');
+    --original-icon-mail-white: url('../img/icons/detail/mail-white.svg');
+    --original-icon-send-dark: url('../img/icons/detail/send.svg');
+    --original-icon-send-white: url('../img/icons/detail/send-white.svg');
+    --original-icon-relevance-dark: url('../img/icons/list/relevance.svg');
+    --original-icon-relevance-white: url('../img/icons/list/relevance-white.svg');
+    --original-icon-relevance-outline-dark: url('../img/icons/list/relevance-outline.svg');
+    --original-icon-relevance-outline-white: url('../img/icons/list/relevance-outline-white.svg');
     --original-icon-rocket-launch-dark: url('../img/icons/list/rocket-launch.svg');
     --original-icon-rocket-launch-white: url('../img/icons/list/rocket-launch-white.svg');
+    --original-icon-rocket-launch-outline-dark: url('../img/icons/list/rocket-launch-outline.svg');
+    --original-icon-rocket-launch-outline-white: url('../img/icons/list/rocket-launch-outline-white.svg');
     --original-icon-sort-alphabetical-variant-dark: url('../img/icons/list/sort-alphabetical-variant.svg');
     --original-icon-sort-alphabetical-variant-white: url('../img/icons/list/sort-alphabetical-variant-white.svg');
     --original-icon-star-plus-dark: url('../img/icons/list/star-plus.svg');
     --original-icon-star-plus-white: url('../img/icons/list/star-plus-white.svg');
+    --original-icon-star-plus-outline-dark: url('../img/icons/list/star-plus-outline.svg');
+    --original-icon-star-plus-outline-white: url('../img/icons/list/star-plus-outline-white.svg');
     --original-icon-timer-star-dark: url('../img/icons/list/timer-star.svg');
     --original-icon-timer-star-white: url('../img/icons/list/timer-star-white.svg');
+    --original-icon-timer-star-outline-dark: url('../img/icons/list/timer-star-outline.svg');
+    --original-icon-timer-star-outline-white: url('../img/icons/list/timer-star-outline-white.svg');
     --original-icon-creation-dark: url('../img/icons/resources/creation.svg');
+    --original-icon-creation-outline-dark: url('../img/icons/resources/creation-outline.svg');
     --original-icon-chevron-left-dark: url('../img/icons/detail/chevron-left.svg');
     --original-icon-chevron-right-dark: url('../img/icons/detail/chevron-right.svg');
 }
@@ -90,28 +130,63 @@ body {
     --icon-category-security-white: var(--original-icon-category-security-white);
     --icon-category-tools-dark: var(--original-icon-category-tools-dark);
     --icon-category-tools-white: var(--original-icon-category-tools-white);
+    --icon-category-ai-dark:   var(--original-icon-category-ai-dark);
+    --icon-category-ai-white:  var(--original-icon-category-ai-white);
 
     --icon-source-fork-dark: var(--original-icon-source-fork-dark);
     --icon-source-fork-white: var(--original-icon-source-fork-white);
     --icon-text-box-dark: var(--original-icon-text-box-dark);
     --icon-text-box-white: var(--original-icon-text-box-white);
+    --icon-text-box-outline-dark: var(--original-icon-text-box-outline-dark);
+    --icon-text-box-outline-white: var(--original-icon-text-box-outline-white);
     --icon-note-text-dark: var(--original-icon-note-text-dark);
     --icon-note-text-white: var(--original-icon-note-text-white);
+    --icon-note-text-outline-dark: var(--original-icon-note-text-outline-dark);
+    --icon-note-text-outline-white: var(--original-icon-note-text-outline-white);
     --icon-bug-dark: var(--original-icon-bug-dark);
     --icon-bug-white: var(--original-icon-bug-white);
+    --icon-bar-chart-dark: var(--original-icon-bar-chart-dark);
+    --icon-bar-chart-white: var(--original-icon-bar-chart-white);
+    --icon-bug-outline-dark: var(--original-icon-bug-outline-dark);
+    --icon-bug-outline-white: var(--original-icon-bug-outline-white);
     --icon-comment-question-dark: var(--original-icon-comment-question-dark);
     --icon-comment-question-white: var(--original-icon-comment-question-white);
+    --icon-comment-question-outline-dark: var(--original-icon-comment-question-outline-dark);
+    --icon-comment-question-outline-white: var(--original-icon-comment-question-outline-white);
     --icon-feature-search-dark: var(--original-icon-feature-search-dark);
     --icon-feature-search-white: var(--original-icon-feature-search-white);
+    --icon-feature-search-outline-dark: var(--original-icon-feature-search-outline-dark);
+    --icon-feature-search-outline-white: var(--original-icon-feature-search-outline-white);
+    --icon-donate-paypal-dark: var(--original-icon-donate-paypal-dark);
+    --icon-donate-paypal-white: var(--original-icon-donate-paypal-white);
+    --icon-donate-stripe-dark: var(--original-icon-donate-stripe-dark);
+    --icon-donate-stripe-white: var(--original-icon-donate-stripe-white);
+    --icon-donate-other-dark: var(--original-icon-donate-other-dark);
+    --icon-donate-other-white: var(--original-icon-donate-other-white);
+    --icon-mail-dark: var(--original-icon-mail-dark);
+    --icon-mail-white: var(--original-icon-mail-white);
+    --icon-send-dark: var(--original-icon-send-dark);
+    --icon-send-white: var(--original-icon-send-white);
+    --icon-relevance-dark: var(--original-icon-relevance-dark);
+    --icon-relevance-white: var(--original-icon-relevance-white);
+    --icon-relevance-outline-dark: var(--original-icon-relevance-outline-dark);
+    --icon-relevance-outline-white: var(--original-icon-relevance-outline-white);
     --icon-rocket-launch-dark: var(--original-icon-rocket-launch-dark);
     --icon-rocket-launch-white: var(--original-icon-rocket-launch-white);
+    --icon-rocket-launch-outline-dark: var(--original-icon-rocket-launch-outline-dark);
+    --icon-rocket-launch-outline-white: var(--original-icon-rocket-launch-outline-white);
     --icon-sort-alphabetical-variant-dark: var(--original-icon-sort-alphabetical-variant-dark);
     --icon-sort-alphabetical-variant-white: var(--original-icon-sort-alphabetical-variant-white);
     --icon-star-plus-dark: var(--original-icon-star-plus-dark);
     --icon-star-plus-white: var(--original-icon-star-plus-white);
+    --icon-star-plus-outline-dark: var(--original-icon-star-plus-outline-dark);
+    --icon-star-plus-outline-white: var(--original-icon-star-plus-outline-white);
     --icon-timer-star-dark: var(--original-icon-timer-star-dark);
     --icon-timer-star-white: var(--original-icon-timer-star-white);
+    --icon-timer-star-outline-dark: var(--original-icon-timer-star-outline-dark);
+    --icon-timer-star-outline-white: var(--original-icon-timer-star-outline-white);
     --icon-creation-dark: var(--original-icon-creation-dark);
+    --icon-creation-outline-dark: var(--original-icon-creation-outline-dark);
     --icon-developer-board-dark: var(--original-icon-developer-board-dark);
     --icon-chevron-left-dark: var(--original-icon-chevron-left-dark);
     --icon-chevron-right-dark: var(--original-icon-chevron-right-dark);
@@ -249,6 +324,14 @@ body .icon-category-tools-white,
 body .icon-category-tools.icon-white {
     background-image: var(--icon-category-tools-white);
 }
+body .icon-category-ai,
+body .icon-category-ai-dark {
+    background-image: var(--icon-category-ai-dark);
+}
+body .icon-category-ai-white,
+body .icon-category-ai.icon-white {
+    background-image: var(--icon-category-ai-white);
+}
 
 body .icon-source-fork,
 body .icon-source-fork-dark {
@@ -266,6 +349,14 @@ body .icon-text-box-white,
 body .icon-text-box.icon-white {
     background-image: var(--icon-text-box-white);
 }
+body .icon-text-box-outline,
+body .icon-text-box-outline-dark {
+    background-image: var(--icon-text-box-outline-dark);
+}
+body .icon-text-box-outline-white,
+body .icon-text-box-outline.icon-white {
+    background-image: var(--icon-text-box-outline-white);
+}
 body .icon-note-text,
 body .icon-note-text-dark {
     background-image: var(--icon-note-text-dark);
@@ -273,6 +364,14 @@ body .icon-note-text-dark {
 body .icon-note-text-white,
 body .icon-note-text.icon-white {
     background-image: var(--icon-note-text-white);
+}
+body .icon-note-text-outline,
+body .icon-note-text-outline-dark {
+    background-image: var(--icon-note-text-outline-dark);
+}
+body .icon-note-text-outline-white,
+body .icon-note-text-outline.icon-white {
+    background-image: var(--icon-note-text-outline-white);
 }
 
 body .icon-bug,
@@ -283,6 +382,22 @@ body .icon-bug-white,
 body .icon-bug.icon-white {
     background-image: var(--icon-bug-white);
 }
+body .icon-bar-chart,
+body .icon-bar-chart-dark {
+    background-image: var(--icon-bar-chart-dark);
+}
+body .icon-bar-chart-white,
+body .icon-bar-chart.icon-white {
+    background-image: var(--icon-bar-chart-white);
+}
+body .icon-bug-outline,
+body .icon-bug-outline-dark {
+    background-image: var(--icon-bug-outline-dark);
+}
+body .icon-bug-outline-white,
+body .icon-bug-outline.icon-white {
+    background-image: var(--icon-bug-outline-white);
+}
 body .icon-comment-question,
 body .icon-comment-question-dark {
     background-image: var(--icon-comment-question-dark);
@@ -290,6 +405,14 @@ body .icon-comment-question-dark {
 body .icon-comment-question-white,
 body .icon-comment-question.icon-white {
     background-image: var(--icon-comment-question-white);
+}
+body .icon-comment-question-outline,
+body .icon-comment-question-outline-dark {
+    background-image: var(--icon-comment-question-outline-dark);
+}
+body .icon-comment-question-outline-white,
+body .icon-comment-question-outline.icon-white {
+    background-image: var(--icon-comment-question-outline-white);
 }
 body .icon-feature-search,
 body .icon-feature-search-dark {
@@ -299,7 +422,71 @@ body .icon-feature-search-white,
 body .icon-feature-search.icon-white {
     background-image: var(--icon-feature-search-white);
 }
+body .icon-feature-search-outline,
+body .icon-feature-search-outline-dark {
+    background-image: var(--icon-feature-search-outline-dark);
+}
+body .icon-feature-search-outline-white,
+body .icon-feature-search-outline.icon-white {
+    background-image: var(--icon-feature-search-outline-white);
+}
+body .icon-donate-paypal,
+body .icon-donate-paypal-dark {
+    background-image: var(--icon-donate-paypal-dark);
+}
+body .icon-donate-paypal-white,
+body .icon-donate-paypal.icon-white {
+    background-image: var(--icon-donate-paypal-white);
+}
+body .icon-donate-stripe,
+body .icon-donate-stripe-dark {
+    background-image: var(--icon-donate-stripe-dark);
+}
+body .icon-donate-stripe-white,
+body .icon-donate-stripe.icon-white {
+    background-image: var(--icon-donate-stripe-white);
+}
+body .icon-donate-other,
+body .icon-donate-other-dark {
+    background-image: var(--icon-donate-other-dark);
+}
+body .icon-donate-other-white,
+body .icon-donate-other.icon-white {
+    background-image: var(--icon-donate-other-white);
+}
+body .icon-mail,
+body .icon-mail-dark {
+    background-image: var(--icon-mail-dark);
+}
+body .icon-mail-white,
+body .icon-mail.icon-white {
+    background-image: var(--icon-mail-white);
+}
+body .icon-send,
+body .icon-send-dark {
+    background-image: var(--icon-send-dark);
+}
+body .icon-send-white,
+body .icon-send.icon-white {
+    background-image: var(--icon-send-white);
+}
 
+body .icon-relevance,
+body .icon-relevance-dark {
+    background-image: var(--icon-relevance-dark);
+}
+body .icon-relevance-white,
+body .icon-relevance.icon-white {
+    background-image: var(--icon-relevance-white);
+}
+body .icon-relevance-outline,
+body .icon-relevance-outline-dark {
+    background-image: var(--icon-relevance-outline-dark);
+}
+body .icon-relevance-outline-white,
+body .icon-relevance-outline.icon-white {
+    background-image: var(--icon-relevance-outline-white);
+}
 body .icon-rocket-launch,
 body .icon-rocket-launch-dark {
     background-image: var(--icon-rocket-launch-dark);
@@ -307,6 +494,14 @@ body .icon-rocket-launch-dark {
 body .icon-rocket-launch-white,
 body .icon-rocket-launch.icon-white {
     background-image: var(--icon-rocket-launch-white);
+}
+body .icon-rocket-launch-outline,
+body .icon-rocket-launch-outline-dark {
+    background-image: var(--icon-rocket-launch-outline-dark);
+}
+body .icon-rocket-launch-outline-white,
+body .icon-rocket-launch-outline.icon-white {
+    background-image: var(--icon-rocket-launch-outline-white);
 }
 body .icon-sort-alphabetical-variant,
 body .icon-sort-alphabetical-variant-dark {
@@ -324,6 +519,14 @@ body .icon-star-plus-white,
 body .icon-star-plus.icon-white {
     background-image: var(--icon-star-plus-white);
 }
+body .icon-star-plus-outline,
+body .icon-star-plus-outline-dark {
+    background-image: var(--icon-star-plus-outline-dark);
+}
+body .icon-star-plus-outline-white,
+body .icon-star-plus-outline.icon-white {
+    background-image: var(--icon-star-plus-outline-white);
+}
 body .icon-timer-star,
 body .icon-timer-star-dark {
     background-image: var(--icon-timer-star-dark);
@@ -332,10 +535,22 @@ body .icon-timer-star-white,
 body .icon-timer-star.icon-white {
     background-image: var(--icon-timer-star-white);
 }
+body .icon-timer-star-outline,
+body .icon-timer-star-outline-dark {
+    background-image: var(--icon-timer-star-outline-dark);
+}
+body .icon-timer-star-outline-white,
+body .icon-timer-star-outline.icon-white {
+    background-image: var(--icon-timer-star-outline-white);
+}
 
 body .icon-creation,
 body .icon-creation-dark {
     background-image: var(--icon-creation-dark);
+}
+body .icon-creation-outline,
+body .icon-creation-outline-dark {
+    background-image: var(--icon-creation-outline-dark);
 }
 
 body .icon-chevron-left,

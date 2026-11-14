@@ -1,0 +1,132 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+version = 1
+SPDX-PackageName = "appstore"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/appstore"
+
+[[annotations]]
+path = "locale/**/LC_MESSAGES/django.po"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2025 Nextcloud translators"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [".tx/config", "docs/developer.rst", "docs/documentation.rst", "docs/index.rst", "docs/translation.rst", "nextcloudappstore/api/v1/tests/data/archives/appinfosymlink.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/appsymlink.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/changelog.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/contacts.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/empty.zip", "nextcloudappstore/api/v1/tests/data/archives/full.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/invalid.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/invalidname.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/minimal.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/multiplefolders.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/symlink.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/twofactor_u2f.tar.gz", "nextcloudappstore/certificate/tests/data/archives/minimal.tar.gz", "nextcloudappstore/api/v1/tests/data/certificates/news-old.crt", "nextcloudappstore/api/v1/tests/data/infoxmls/badcommand.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/broken-xml.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/digits.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/entities.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/full.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/fullimport.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/invalid.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/invalid-elements.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/minimal.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/news.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/nextcloud.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/no_en_description.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/no_en_name.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/no_en_summary.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/prerelease.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/repair-and-jobs.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/settings-and-activity-and-nav.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/toolongid.xml", "nextcloudappstore/core/fixtures/categories.json", "nextcloudappstore/core/fixtures/databases.json", "nextcloudappstore/core/fixtures/licenses.json", "nextcloudappstore/core/static/assets/img/banner.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/favicon-180.png", "nextcloudappstore/core/static/assets/img/favicon-highres.png", "nextcloudappstore/core/static/assets/img/favicon.png", "nextcloudappstore/core/static/assets/img/small-logo-blue.png", "nextcloudappstore/core/static/assets/img/small-logo.png", "nextcloudappstore/core/static/assets/img/logo-icon.svg", "nextcloudappstore/core/static/assets/img/logo_nextcloud_white.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = [".idea/**", "appstore.iml", "package-lock.json", "package.json", "tsconfig.json", "docs/devinstall.rst", "docs/prodinstall.rst", "docs/storedeveloper.rst", "nextcloudappstore/core/static/assets/img/ajax-loader.gif", "nextcloudappstore/core/static/assets/img/loading.gif", "nextcloudappstore/api/v1/tests/data/archives/database.tar.gz", "nextcloudappstore/api/v1/tests/data/database/broken.xml", "nextcloudappstore/api/v1/tests/data/database/invaliddb.xml", "nextcloudappstore/api/v1/tests/data/database/invaliddeclaration.xml", "nextcloudappstore/api/v1/tests/data/database/invalidfield.xml", "nextcloudappstore/api/v1/tests/data/database/invalidindex.xml", "nextcloudappstore/api/v1/tests/data/database/invalidindexfield.xml", "nextcloudappstore/api/v1/tests/data/database/invalidtable.xml", "nextcloudappstore/api/v1/tests/data/database/nameafterdecl.xml", "nextcloudappstore/api/v1/tests/data/database/news.xml", "nextcloudappstore/api/v1/tests/data/database/server.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/authmigration.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/collaboration.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/sabre.xml", "nextcloudappstore/certificate/tests/data/certificates/app.crt", "nextcloudappstore/certificate/tests/data/certificates/bad-news-old-minimal.sig", "nextcloudappstore/certificate/tests/data/certificates/empty.crl", "nextcloudappstore/certificate/tests/data/certificates/imaginary-revoked1.crt", "nextcloudappstore/certificate/tests/data/certificates/imaginary-revoked2.crt", "nextcloudappstore/certificate/tests/data/certificates/imaginary-valid.crt", "nextcloudappstore/certificate/tests/data/certificates/imaginary.chain", "nextcloudappstore/certificate/tests/data/certificates/imaginary.crl", "nextcloudappstore/certificate/tests/data/certificates/news-old-app-id.sig", "nextcloudappstore/certificate/tests/data/certificates/news-old-minimal.sig", "nextcloudappstore/certificate/tests/data/certificates/news-old.crt", "nextcloudappstore/certificate/tests/data/certificates/nextcloud.crt", "nextcloudappstore/certificate/tests/data/certificates/owncloud.crt", "nextcloudappstore/core/tests/e2e/data/app.crt", "nextcloudappstore/core/tests/e2e/data/app.key", "nextcloudappstore/core/tests/e2e/data/ca.crl", "nextcloudappstore/core/tests/e2e/data/ca.crt", "nextcloudappstore/core/tests/e2e/data/ca.key", "nextcloudappstore/core/tests/e2e/fixtures/admin.json", "nextcloudappstore/core/tests/e2e/fixtures/apps.json", "nextcloudappstore/core/tests/e2e/fixtures/nextcloudreleases.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["docs/prodinstalldocker.rst", "docs/upgradenotices.rst", "nextcloudappstore/api/v1/tests/data/archives/blacklisted_files.tar.gz", "nextcloudappstore/api/v1/tests/data/archives/blacklisted_directories.tar.gz", "nextcloudappstore/api/v1/tests/data/infoxmls/nondocurls.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/switchednondocurls.xml", "nextcloudappstore/core/tests/data/tags_page_1.json", "nextcloudappstore/core/tests/data/tags_page_2.json", "nextcloudappstore/core/tests/data/tags_page_3.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["docs/configuration.rst", "nextcloudappstore/api/v1/tests/data/archives/notgzipped.tar.gz"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["nextcloudappstore/api/v1/tests/data/infoxmls/app_api.xml", "nextcloudappstore/api/v1/tests/data/infoxmls/app_api_minimal.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["docs/api/index.rst", "docs/api/app-discover.rst", "docs/api/app-discover.schema.json", "docs/api/index.rst", "docs/api/restapi.rst"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["CLAUDE.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/categories/clipboard-flow-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/clipboard-flow.svg", "nextcloudappstore/core/static/assets/img/icons/categories/tools-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/tools.svg", "nextcloudappstore/core/static/assets/img/icons/footer/note-text-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/footer/note-text-outline.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Michael Richins <https://mikerichins.dev/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/categories/account-network-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/account-network.svg", "nextcloudappstore/core/static/assets/img/icons/categories/gamepad-variant-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/gamepad-variant.svg", "nextcloudappstore/core/static/assets/img/icons/detail/comment-question-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/comment-question.svg", "nextcloudappstore/core/static/assets/img/icons/footer/note-text-white.svg", "nextcloudappstore/core/static/assets/img/icons/footer/note-text.svg", "nextcloudappstore/core/static/assets/img/icons/footer/source-fork-white.svg", "nextcloudappstore/core/static/assets/img/icons/footer/source-fork.svg", "nextcloudappstore/core/static/assets/img/icons/detail/bar-chart-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/bar-chart.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Austin Andrews <http://templarian.com/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/categories/monitor-eye-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/monitor-eye.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "MaksUr <https://github.com/MaksUr>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/categories/all-apps-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/all-apps.svg", "nextcloudappstore/core/static/assets/img/icons/list/relevance-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/relevance-outline.svg", "nextcloudappstore/core/static/assets/img/icons/resources/creation-outline.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jeff Anders <https://jeffanders.co/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/list/timer-star-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/timer-star.svg", "nextcloudappstore/core/static/assets/img/icons/list/timer-star-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/timer-star-outline.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Colton Wiscombe <http://coltonwiscombe.com/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/categories/multimedia-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/multimedia.svg", "nextcloudappstore/core/static/assets/img/icons/list/rocket-launch-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/rocket-launch.svg", "nextcloudappstore/core/static/assets/img/icons/list/rocket-launch-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/rocket-launch-outline.svg", "nextcloudappstore/core/static/assets/img/icons/list/star-plus-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/star-plus.svg", "nextcloudappstore/core/static/assets/img/icons/list/star-plus-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/star-plus-outline.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Michael Irigoyen <https://www.irigoyen.dev/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/detail/comment-question-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/comment-question-outline.svg", "nextcloudappstore/core/static/assets/img/icons/detail/feature-search-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/feature-search.svg", "nextcloudappstore/core/static/assets/img/icons/detail/feature-search-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/feature-search-outline.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Simran <https://github.com/Simran-B>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/categories/office-building-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/office-building.svg", "nextcloudappstore/core/static/assets/img/icons/categories/text-box-edit-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/text-box-edit.svg", "nextcloudappstore/core/static/assets/img/icons/footer/text-box-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/footer/text-box-outline.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "GreenTurtwig <https://greenturtwig.co.uk/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/no-screenshot.svg", "nextcloudappstore/core/static/assets/img/icons/categories/ai-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/ai.svg", "nextcloudappstore/core/static/assets/img/icons/categories/featured-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/featured.svg", "nextcloudappstore/core/static/assets/img/icons/categories/folder-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/folder.svg", "nextcloudappstore/core/static/assets/img/icons/categories/magnify-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/magnify.svg", "nextcloudappstore/core/static/assets/img/icons/categories/open-in-app-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/open-in-app.svg", "nextcloudappstore/core/static/assets/img/icons/categories/security-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/security.svg", "nextcloudappstore/core/static/assets/img/icons/categories/view-dashboard-white.svg", "nextcloudappstore/core/static/assets/img/icons/categories/view-dashboard.svg", "nextcloudappstore/core/static/assets/img/icons/detail/bug-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/bug.svg", "nextcloudappstore/core/static/assets/img/icons/detail/bug-outline-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/bug-outline.svg", "nextcloudappstore/core/static/assets/img/icons/detail/chevron-left.svg", "nextcloudappstore/core/static/assets/img/icons/detail/chevron-right.svg", "nextcloudappstore/core/static/assets/img/icons/detail/donate-other-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/donate-other.svg", "nextcloudappstore/core/static/assets/img/icons/detail/mail.svg", "nextcloudappstore/core/static/assets/img/icons/detail/mail-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/send.svg", "nextcloudappstore/core/static/assets/img/icons/detail/send_white.svg", "nextcloudappstore/core/static/assets/img/icons/footer/text-box-white.svg", "nextcloudappstore/core/static/assets/img/icons/footer/text-box.svg", "nextcloudappstore/core/static/assets/img/icons/list/relevance-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/relevance.svg", "nextcloudappstore/core/static/assets/img/icons/list/sort-alphabetical-variant-white.svg", "nextcloudappstore/core/static/assets/img/icons/list/sort-alphabetical-variant.svg", "nextcloudappstore/core/static/assets/img/icons/resources/creation.svg", "nextcloudappstore/core/static/assets/img/rating/s0.svg", "nextcloudappstore/core/static/assets/img/rating/s1.svg", "nextcloudappstore/core/static/assets/img/rating/s10.svg", "nextcloudappstore/core/static/assets/img/rating/s2.svg", "nextcloudappstore/core/static/assets/img/rating/s3.svg", "nextcloudappstore/core/static/assets/img/rating/s4.svg", "nextcloudappstore/core/static/assets/img/rating/s5.svg", "nextcloudappstore/core/static/assets/img/rating/s6.svg", "nextcloudappstore/core/static/assets/img/rating/s7.svg", "nextcloudappstore/core/static/assets/img/rating/s8.svg", "nextcloudappstore/core/static/assets/img/rating/s9.svg", "nextcloudappstore/core/static/assets/fonts/MaterialSymbolsOutlined.woff2"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2014-2025 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/fonts/OpenSans-Light.woff", "nextcloudappstore/core/static/assets/fonts/OpenSans-Regular.woff", "nextcloudappstore/core/static/assets/fonts/OpenSans-Semibold.woff"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 The Open Sans Project Authors <https://github.com/googlefonts/opensans>"
+SPDX-License-Identifier = "OFL-1.1"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/detail/donate-stripe-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/donate-stripe.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Stripe, Inc."
+SPDX-License-Identifier = "LicenseRef-StripeTrademarks"
+
+[[annotations]]
+path = ["nextcloudappstore/core/static/assets/img/icons/detail/donate-paypal-white.svg", "nextcloudappstore/core/static/assets/img/icons/detail/donate-paypal.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 PayPal"
+SPDX-License-Identifier = "LicenseRef-PayPalTrademarks"

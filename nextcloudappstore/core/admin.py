@@ -1,8 +1,14 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.contrib import admin
 from parler.admin import TranslatableAdmin
 
 from nextcloudappstore.core.models import (
     App,
+    AppApiEnvironmentVariable,
     AppApiReleaseApiScope,
     AppApiReleaseDeployMethod,
     AppAuthor,
@@ -12,6 +18,7 @@ from nextcloudappstore.core.models import (
     Category,
     Database,
     DatabaseDependency,
+    Donation,
     License,
     NextcloudRelease,
     PhpExtension,
@@ -19,6 +26,7 @@ from nextcloudappstore.core.models import (
     Podcast,
     Screenshot,
     ShellCommand,
+    Video,
 )
 
 
@@ -42,7 +50,7 @@ class AppReleaseAdmin(admin.ModelAdmin):
 @admin.register(AppRelease)
 class AppReleaseAdmin(TranslatableAdmin):  # noqa
     inlines = (DatabaseDependencyInline, PhpExtensionDependencyInline)
-    list_display = ("app", "version", "is_nightly", "last_modified")
+    list_display = ("app", "version", "is_nightly", "last_modified", "release_date")
     list_filter = ("app__id", "is_nightly", "last_modified")
     ordering = ("-last_modified",)
     readonly_fields = ("signature_digest",)
@@ -65,12 +73,17 @@ class AppAdmin(TranslatableAdmin):
         "owner",
         "name",
         "last_release",
+        "release_date",
         "rating_recent",
         "rating_overall",
         "summary",
         "is_featured",
         "ownership_transfer_enabled",
+        "is_orphan",
+        "is_deprecated",
         "is_integration",
+        "is_enterprise_supported",
+        "is_enterprise_only",
         "approved",
     )
     list_filter = (
@@ -81,7 +94,11 @@ class AppAdmin(TranslatableAdmin):
         "is_featured",
         "last_release",
         "ownership_transfer_enabled",
+        "is_orphan",
+        "is_deprecated",
         "is_integration",
+        "is_enterprise_supported",
+        "is_enterprise_only",
         "approved",
     )
     ordering = ("id",)
@@ -132,6 +149,20 @@ class ScreenshotAdmin(admin.ModelAdmin):
     list_filter = ("app__id",)
 
 
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    ordering = ("app", "ordering")
+    list_display = ("url", "app", "ordering")
+    list_filter = ("app__id",)
+
+
+@admin.register(Donation)
+class DonationAdmin(admin.ModelAdmin):
+    ordering = ("app", "ordering")
+    list_display = ("url", "type", "title", "app", "ordering")
+    list_filter = ("app__id",)
+
+
 @admin.register(NextcloudRelease)
 class NextcloudReleaseAdmin(admin.ModelAdmin):
     list_display = ("version", "is_current", "has_release", "is_supported")
@@ -150,4 +181,9 @@ class AppApiReleaseApiScopeAdmin(admin.ModelAdmin):
 
 @admin.register(AppApiReleaseDeployMethod)
 class AppApiReleaseDeployMethodAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(AppApiEnvironmentVariable)
+class AppApiEnvironmentVariable(admin.ModelAdmin):
     pass

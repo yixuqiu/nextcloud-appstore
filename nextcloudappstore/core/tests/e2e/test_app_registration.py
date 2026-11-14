@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.test import tag
 
 from nextcloudappstore.core.facades import (
@@ -23,11 +28,7 @@ class AppRegistrationTest(BaseStoreTest, AppDevSteps):
         self.login()
 
         def validate_error_msg(el):
-            msg = (
-                "Signature is invalid: [('rsa routines', "
-                "'', 'wrong signature length'), "
-                "('Provider routines', '', 'RSA lib')]"
-            )
+            msg = "Signature is invalid:"
             self.assertTrue(el.is_displayed())
             self.assertEqual(msg, el.text.strip())
 

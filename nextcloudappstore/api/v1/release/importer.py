@@ -1,13 +1,21 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import json
+from base64 import urlsafe_b64encode
 from typing import Any  # type: ignore
 
 from django.conf import settings  # type: ignore
 from django.utils import timezone
 from semantic_version import Version  # type: ignore
 
-from nextcloudappstore.core.facades import any_match
+from nextcloudappstore.api.v1.release.peertube import peertube_embed_url
+from nextcloudappstore.core.facades import all_match
 from nextcloudappstore.core.models import (
     App,
+    AppApiEnvironmentVariable,
     AppApiReleaseApiScope,
     AppApiReleaseDeployMethod,
     AppAuthor,
@@ -15,11 +23,13 @@ from nextcloudappstore.core.models import (
     Category,
     Database,
     DatabaseDependency,
+    Donation,
     License,
     PhpExtension,
     PhpExtensionDependency,
     Screenshot,
     ShellCommand,
+    Video,
 )
 from nextcloudappstore.core.versioning import to_raw_spec, to_spec
 
@@ -132,9 +142,13 @@ class StringAttributeImporter(ScalarImporter):
 
 class ScreenshotsImporter(ScalarImporter):
     def import_data(self, key: str, value: Any, obj: Any) -> None:
+        def get_proxy_url(url: str) -> str:
+            base64_url = urlsafe_b64encode(url.encode()).decode()
+            return f"{settings.USERCONTENT_PROXY_URL}/{base64_url}"
+
         def create_screenshot(img: dict[str, str]) -> Screenshot:
             return Screenshot.objects.create(
-                url=img["url"],
+                url=get_proxy_url(img["url"]),
                 app=obj,
                 ordering=img["ordering"],
                 small_thumbnail=none_to_empty_string(img["small_thumbnail"]),
@@ -142,6 +156,34 @@ class ScreenshotsImporter(ScalarImporter):
 
         shots = map(lambda val: create_screenshot(val["screenshot"]), value)
         obj.screenshots.set(list(shots))
+
+
+class VideosImporter(ScalarImporter):
+    def import_data(self, key: str, value: Any, obj: Any) -> None:
+        def create_video(data: dict[str, str]) -> Video:
+            return Video.objects.create(
+                url=peertube_embed_url(data["url"].strip()),
+                app=obj,
+                ordering=data["ordering"],
+            )
+
+        videos = map(lambda val: create_video(val["video"]), value)
+        obj.videos.set(list(videos))
+
+
+class DonationsImporter(ScalarImporter):
+    def import_data(self, key: str, value: Any, obj: Any) -> None:
+        def create_donation(dnt: dict[str, str]) -> Donation:
+            return Donation.objects.create(
+                url=dnt["url"],
+                app=obj,
+                ordering=dnt["ordering"],
+                title=dnt["title"],
+                type=dnt["type"],
+            )
+
+        donations = map(lambda val: create_donation(val["donation"]), value)
+        obj.donations.set(list(donations))
 
 
 class CategoryImporter(ScalarImporter):
@@ -178,6 +220,15 @@ class AppApiImporter(ScalarImporter):
                 )
         for scope in value.get("scopes", []):
             AppApiReleaseApiScope.objects.get_or_create(app_release=obj, scope_name=scope["value"])
+        for env_var_struct in value.get("environment_variables", []):
+            env_var = env_var_struct["variable"]
+            AppApiEnvironmentVariable.objects.get_or_create(
+                app_release=obj,
+                env_name=env_var["name"],
+                display_name=env_var["display_name"],
+                description=env_var.get("description", ""),
+                default=env_var.get("default", ""),
+            )
 
 
 class AppReleaseImporter(Importer):
@@ -251,6 +302,8 @@ class AppImporter(Importer):
         self,
         release_importer: AppReleaseImporter,
         screenshots_importer: ScreenshotsImporter,
+        videos_importer: VideosImporter,
+        donations_importer: DonationsImporter,
         attribute_importer: StringAttributeImporter,
         l10n_importer: L10NImporter,
         category_importer: CategoryImporter,
@@ -261,6 +314,8 @@ class AppImporter(Importer):
             {
                 "release": release_importer,
                 "screenshots": screenshots_importer,
+                "videos": videos_importer,
+                "donations": donations_importer,
                 "user_docs": attribute_importer,
                 "admin_docs": attribute_importer,
                 "website": attribute_importer,
@@ -294,6 +349,8 @@ class AppImporter(Importer):
         if self._should_update_everything(value):
             # clear all relations
             obj.screenshots.all().delete()
+            obj.videos.all().delete()
+            obj.donations.all().delete()
             obj.authors.all().delete()
             obj.categories.clear()
             for translation in obj.translations.all():
@@ -341,7 +398,6 @@ class AppImporter(Importer):
         def is_newer_version(release: Any) -> bool:
             return uploaded_version >= Version(release.version)
 
-        # the main page should only be updated when stable and new releases
-        # are uploaded
-        is_latest_version = any_match(is_newer_version, releases)
+        # the main page should only be updated when newest stable release is uploaded
+        is_latest_version = all_match(is_newer_version, releases)
         return is_latest_version

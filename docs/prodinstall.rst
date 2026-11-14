@@ -1,6 +1,11 @@
 Store Production Installation
 =============================
 
+.. warning::
+
+    We no longer provide support (including enterprise support) for self-hosting the app store, nor maintain this part of the documentation.
+    As our code is open-source, you are welcome to reuse this part if you find a way to make it work, but such usage of the app store is at your own risk.
+
 There are two ways to install the store, both are mutually exclusive (means: don't mix and match). If you are looking for a development setup, proceed to :doc:`devinstall`, otherwise continue.
 
 .. note:: This guide will use Ubuntu 22.04, Apache and PostgreSQL to set up the app store. You can of course also use different distributions and web-servers, however we will not be able to support you.
@@ -79,7 +84,7 @@ Next install the required libraries::
 
     pip install --upgrade wheel
     pip install --upgrade pip
-    pip install poetry==1.4.2
+    pip install poetry==1.8.2
     poetry install
 
 Adjusting Default Settings
@@ -226,7 +231,7 @@ Afterwards restart your web server::
 
 Configure Social Logins
 -----------------------
-Once the App Store is up and running social login needs to be configured. The App Store uses `django-allauth <https://django-allauth.readthedocs.io>`_ for local and social login. In order to configure these logins, most providers require you to register your app beforehand.
+Once the App Store is up and running social login needs to be configured. The App Store uses `django-allauth <https://docs.allauth.org/en/latest/>`_ for local and social login. In order to configure these logins, most providers require you to register your app beforehand.
 
 **GitHub**
 

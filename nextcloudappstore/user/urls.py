@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.urls import path, re_path
 
 from nextcloudappstore.scaffolding.views import IntegrationScaffoldingView
@@ -7,9 +12,12 @@ from nextcloudappstore.user.views import (
     AppealCommentsView,
     ChangeLanguageView,
     DeleteAccountView,
+    DeprecateAppsView,
+    EnterpriseAppsView,
     IntegrationsView,
     PasswordView,
     TransferAppsView,
+    VideoPreferencesView,
 )
 
 app_name = "user"
@@ -25,9 +33,15 @@ urlpatterns = [
     ),
     re_path(r"^transfer-apps/?$", TransferAppsView.as_view(), name="account-transfer-apps"),
     re_path(r"^transfer-apps/(?P<pk>[a-z0-9_]+)/?$", TransferAppsView.as_view(), name="account-transfer-app"),
+    re_path(r"^orphan-apps/(?P<pk>[a-z0-9_]+)/?$", TransferAppsView.as_view(), name="account-orphan-app"),
+    re_path(r"^deprecate-apps/?$", DeprecateAppsView.as_view(), name="account-deprecate-apps"),
+    re_path(r"^deprecate-apps/(?P<pk>[a-z0-9_]+)/?$", DeprecateAppsView.as_view(), name="account-deprecate-app"),
+    re_path(r"^enterprise-apps/?$", EnterpriseAppsView.as_view(), name="account-enterprise-apps"),
+    re_path(r"^enterprise-apps/(?P<pk>[a-z0-9_]+)/?$", EnterpriseAppsView.as_view(), name="account-enterprise-app"),
     re_path(r"^password/?$", PasswordView.as_view(), name="account-password"),
     re_path(r"^token/?$", APITokenView.as_view(), name="account-api-token"),
     re_path(r"^delete/?$", DeleteAccountView.as_view(), name="account-deletion"),
     re_path(r"^change-language/?$", ChangeLanguageView.as_view(), name="account-change-language"),
+    re_path(r"^video-preferences/?$", VideoPreferencesView.as_view(), name="account-video-preferences"),
     re_path(r"^appeal-comments/?$", AppealCommentsView.as_view(), name="appeal-comments"),
 ]

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
@@ -9,7 +13,6 @@ module.exports = {
         'app/detail': `${base}assets/app/app/views/Detail.ts`,
         'app/register': `${base}assets/app/app/views/Register.ts`,
         'app/upload': `${base}assets/app/app/views/Upload.ts`,
-        'app/releases': `${base}assets/app/app/views/Releases.ts`,
         'user/token': `${base}assets/app/user/views/Token.ts`
     },
     output: {

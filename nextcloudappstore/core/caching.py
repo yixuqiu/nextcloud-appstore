@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 import datetime
 import os
 from typing import Any
@@ -6,6 +11,7 @@ from django.conf import settings  # type: ignore
 from django.db.models import Max, QuerySet
 from semantic_version import Version
 
+from nextcloudappstore.core.enterprise import filter_enterprise
 from nextcloudappstore.core.models import (
     App,
     AppRating,
@@ -37,7 +43,7 @@ def get_last_modified(pairs: list[tuple[QuerySet, str]]) -> datetime.datetime | 
 def apps_etag(request: Any, version: str) -> str:
     return create_etag(
         [
-            (App.objects.all(), "last_release"),
+            (filter_enterprise(App.objects.all(), request), "last_release"),
             (AppReleaseDeleteLog.objects.all(), "last_modified"),
         ]
     )
@@ -46,7 +52,7 @@ def apps_etag(request: Any, version: str) -> str:
 def apps_last_modified(request: Any, version: str) -> datetime.datetime | None:
     return get_last_modified(
         [
-            (App.objects.all(), "last_release"),
+            (filter_enterprise(App.objects.all(), request), "last_release"),
             (AppReleaseDeleteLog.objects.all(), "last_modified"),
         ]
     )
@@ -55,7 +61,7 @@ def apps_last_modified(request: Any, version: str) -> datetime.datetime | None:
 def apps_all_etag(request: Any) -> str:
     return create_etag(
         [
-            (App.objects.all(), "last_release"),
+            (filter_enterprise(App.objects.all(), request), "last_release"),
             (AppReleaseDeleteLog.objects.all(), "last_modified"),
         ]
     )
@@ -64,7 +70,7 @@ def apps_all_etag(request: Any) -> str:
 def apps_all_last_modified(request: Any) -> datetime.datetime | None:
     return get_last_modified(
         [
-            (App.objects.all(), "last_release"),
+            (filter_enterprise(App.objects.all(), request), "last_release"),
             (AppReleaseDeleteLog.objects.all(), "last_modified"),
         ]
     )
@@ -99,7 +105,7 @@ def nextcloud_release_etag(request: Any) -> str:
     releases = [Version(rel.version) for rel in NextcloudRelease.objects.all()]
     release_num = len(releases)
     latest_release = str(max(releases)) if release_num > 0 else ""
-    return "%d-%s" % (release_num, latest_release)
+    return f"{release_num}-{latest_release}"
 
 
 def discover_last_modified(request: Any) -> datetime.datetime | None:

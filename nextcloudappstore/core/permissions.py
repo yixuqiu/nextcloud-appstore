@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from rest_framework.permissions import BasePermission
 
 DELETE_METHODS = ("DELETE",)
@@ -11,6 +16,12 @@ class UpdateDeletePermission(BasePermission):
     to set different methods for updating and deleting resources for
     authenticated users
     """
+
+    def has_permission(self, request, view):
+        """Gate write methods at the view level, before any object is fetched."""
+        if request.method in READ_METHODS:
+            return True
+        return bool(request.user and request.user.is_authenticated)
 
     def has_update_obj_permission(self, user, obj):
         return obj.can_update(user)

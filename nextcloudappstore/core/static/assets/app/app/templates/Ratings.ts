@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import {appealRating, deleteRating, IRating} from '../../api/Ratings';
 import {renderMd} from '../../dom/Markdown';
 import {render, Unescaped} from '../../dom/Templating';
@@ -18,14 +23,14 @@ export function renderRating(template: HTMLTemplateElement,
 }
 
 export function renderRatingActions(template: HTMLTemplateElement,
-                             rating: IRating, lang: string, fallbackLang: string): HTMLElement {
+                                    rating: IRating, lang: string, fallbackLang: string): HTMLElement {
     const root = render(template, {});
     if (!rating.appeal) {
         // Remove these buttons from template if comment has no appeal for spam
         const buttonsToRemove = [
             'button.comment-actions__delete',
             'button.comment-actions__appeal_cancel',
-            'button.comment-actions__appeal_cancel_admin'
+            'button.comment-actions__appeal_cancel_admin',
         ];
         buttonsToRemove.forEach((buttonSelector) => {
             try {

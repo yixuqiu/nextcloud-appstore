@@ -1,8 +1,174 @@
+<!--
+  - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Changelog
 
 ## [Unreleased]
 
-## [4.8.1]  - 2024-05-10
+## [5.0.0] - 2026-09-17
+
+### Added
+
+- Optional `release_date` on apps and app releases, settable by app store administrators, shown in place of the last update date or upload timestamp. #1895
+- GitHub download statistics via API or app details page for app maintainers. #1796
+- Support for adding PeerTube videos to apps in info.xml. #1867
+- Display app videos next to screenshots in app details page. #1867
+- Account setting to toggle autoplay of app videos. #1867
+
+### Changed
+
+- Retrieve app screenshots from proxy server instead of direct URLs specified by apps. #1862
+- Replace `include_enterprise` query parameter with `X-NC-Subscription-Key` header for retrieval of enterprise-only apps. #1848 #1870
+- Multiple dependency updates. #1873 #1874 #1875
+- Documentation update. #1893
+
+### Fixed
+
+- Require authentication for write methods in UpdateDeletePermission. #1901
+- Return 405 instead of 500 for unsupported methods on app routes. #1899
+- Widen screenshot URL length ceiling. #1898
+
+## [4.12.0] - 2026-08-05
+
+### Added
+
+- Option to mark apps as enterprise-only on new app registration. #1840
+- Optional query parameter `include_enterprise` for app list retrieval endpoints. #1840
+- Option to mark apps as deprecated from the account settings. #1762
+- Allow all licenses compatible with AGPL-3.0-or-later to be specified in info.xml. #1747 #1754
+- Allow openmetrics and admin delegation settings to be specified in info.xml. #1695
+
+### Changed
+
+- Multiple dependency updates. #1536 #1538 #1543 #1557 #1682 #1698 #1716 #1731
+  #1739 #1745 #1750 #1751 #1752 #1755 #1760 #1766 #1767 #1769 #1776 #1779 #1781
+  #1782 #1786 #1798 #1800 #1817 #1819 #1820 #1821 #1822 #1823 #1824 #1825 #1826
+  #1829 #1831 #1834 #1836 #1845 #1847 #1856 #1857
+- Clarified text in various areas. #1850
+- users_picker app is now bundled into Nextcloud server. #1713
+- Multiple documentation updates. #1743 #1754 #1773 #1787
+- Update app template. #1741 #1842
+
+### Fixed
+
+- Add IP filtering to app release URLs. #1838
+- Trust the reverse proxy's `X-Forwarded-For` header for login rate limiting,
+  so failed-login limits apply per visitor instead of collapsing into a single site-wide bucket. #1813
+- Fix broken `fa` translation entries breaking `compilemessages` and CI. #1812
+- Reject app IDs longer than 32 characters during upload instead of letting Nextcloud server crash on install. #1811
+- Do not update password if notification email fails to send. #1808
+- Allow GitHub-only accounts to edit profile without a password. #1807
+- Rate-limit email notifications. #1771
+- Update default value of subscribe_to_news in database. #1761
+- Multiple accessibility fixes. #1720 #1721
+
+## [4.11.3] - 2026-01-05
+
+### Changed
+
+- Update app template. #1688
+- Multiple dependency updates. #1685
+
+### Fixed
+
+- Update app description only when uploaded app release is latest version. #1687
+
+## [4.11.2] - 2025-12-16
+
+### Changed
+
+- Update app template. #1671
+- Multiple dependency updates. #1665 #1670 #1672
+
+### Fixed
+
+- Bump minimum Nextcloud version for outdated app status check. #1673
+
+## [4.11.1] - 2025-09-24
+
+### Changed
+
+- Use more outlined icons. #1653
+
+## [4.11.0] - 2025-09-23
+
+### Added
+
+- App authors display in sidebar on app details page. #1625
+
+### Changed
+
+- Use outlined icons in footer. #1650
+- Use filled/outlined icons for sorting options depending on selection. #1650
+- Update app template. #1622 #1643
+- Multiple dependency updates. #1331 #1541 #1627 #1630 #1633 #1642 #1644 #1647
+- Multiple documentation updates. #1624 #1636
+
+## [4.10.0] - 2025-05-30
+
+### Added
+
+- REUSE compliance. #1603 #1604 #1607 #1608 #1614
+- AI category. #1594 #1596
+- SPDX identifiers for currently supported licenses as `licence` XML values
+  (for apps targeting Nextcloud versions 31 or later). #1560
+- Note marking bundled apps as shipped. #1561
+- Check if app is in hardcoded bundled list. #1558
+- Odoo integration (newsletter mailing list). #1518 #1523 #1524 #1525 #1527
+- Search by app ID. #1469
+- Cache for `60 sec` for `latest_releases_by_platform_v` method. #1468
+
+### Changed
+
+- Use default password reset form from allauth. #1613
+- Allow `scopes` be not present in `external-app`. #1497
+- Default `discussion` URLs for apps. #1496
+- Update dashboard icon. #1461
+- Multiple dependency updates. #1340 #1364 #1366 #1427 #1429 #1435 #1436 #1439
+  #1442 #1463 #1476 #1477 #1478 #1480 #1481 #1491 #1520 #1522 #1530 #1531 #1532
+  #1537 #1539 #1545 #1546 #1548 #1551 #1564 #1567 #1573 #1576 #1578 #1600
+- Multiple documentation updates. #1457 #1612
+
+### Fixed
+
+- Wrap XML values containing escape characters in CDATA sections. #1618
+- Password reset from email token success page style. #1617
+- Top navigation bar layout for large viewport width. #1611
+- Clear browser cache for user account pages after logout. #1572
+- Send confirmation email for and verify updated email addresses. #1571
+- Validation for "Download link (tar.gz)" field. #1562
+- Typo in app name hint. #1517
+- Unstable version handling. #1515
+- Donation type and attribute. #1487 #1492
+- Consider "integrations" always up to date. #1470
+- Optimized viewing of app store pages. #1467
+- Broken doc links. #1459
+
+## [4.9.0] - 2024-08-19
+
+### Added
+
+- `donation` XML attribute and donation button display for apps. #1452
+- Option to add enterprise support request button to apps. #1449
+- Link to documentation for monetization features. #1453
+- Relevance sorting option. #1426
+- Ability to mark apps as orphaned/unmaintained. #1421
+- Warning banner for apps without a release on recent Nextcloud versions. #1419
+
+### Changed
+
+- Multiple dependency updates. #1379 #1386 #1382 #1388 #1389 #1390 #1391 #1392
+  #1393 #1400 #1401 #1404 #1409 #1412 #1414 #1415 #1417 #1428 #1430 #1431 #1433
+  #1438 #1448
+
+### Fixed
+
+- Escape characters in translation string. #1425 #1441
+- Adjust banner height on medium browser width. #1423
+- Cleanup Makefile variables. #1367
+
+## [4.8.1] - 2024-05-10
 
 ### Changed
 
@@ -12,7 +178,7 @@
 - dnspython dependency updated from `2.5.0` to `2.6.1` #1351
 - pillow dependency updated from `10.2.0` to `10.3.0` #1346
 
-## [4.8.0]  - 2024-03-17
+## [4.8.0] - 2024-03-17
 
 ### Added
 
@@ -30,7 +196,7 @@
 - Broken templates after `django-allauth` update. #1304
 - Documentation hosting & building.
 
-## [4.7.0]  - 2024-02-15
+## [4.7.0] - 2024-02-15
 
 ### Added
 
@@ -44,7 +210,7 @@
 - pillow updated from `10.0.1` to `10.2.0` #1283
 - follow-redirects updated from `1.15.2` to `1.15.5` #1286
 
-## [4.6.0]  - 2024-01-02
+## [4.6.0] - 2024-01-02
 
 ### Added
 
@@ -54,7 +220,7 @@
 
 - lxml updated from `4.9.3` to `4.9.4`
 
-## [4.5.0]  - 2023-12-21
+## [4.5.0] - 2023-12-21
 
 ### Added
 
@@ -77,7 +243,7 @@
 - Allow `ExApp` without API scopes.
 - Allow uploading of GPLv3 licensed application releases.
 
-## [4.4.1]  - 2023-10-05
+## [4.4.1] - 2023-10-05
 
 ### Changed
 
@@ -88,7 +254,7 @@
 - Allow uploading of MIT licensed application releases. #1165
 - Adjusted Makefile in the app generation template. #1166
 
-## [4.4.0]  - 2023-10-03
+## [4.4.0] - 2023-10-03
 
 ### Added
 
@@ -102,7 +268,7 @@
 - Updated `highlight.js` dependency to last major version. #1063
 - Updated `django-allauth` from 0.54 to 0.57. #1152
 
-## [4.3.2]  - 2023-09-23
+## [4.3.2] - 2023-09-23
 
 ### Added
 
@@ -113,14 +279,14 @@
 
 - `/api/v1/apps.json` endpoint now ALWAYS return gzipped data. #1147
 
-## [4.3.1]  - 2023-09-19
+## [4.3.1] - 2023-09-19
 
 ### Changed
 
 - Replaced `psycopg2` with new `psycopg` package. #1143
 - Updated dependencies & packages. #1129
 
-## [4.3.0]  - 2023-09-07
+## [4.3.0] - 2023-09-07
 
 ### Changed
 
@@ -131,7 +297,7 @@
 
 - Bug in REST API for deleting releases when APP_ID contains number. #1127
 
-## [4.2.0]  - 2023-07-18
+## [4.2.0] - 2023-07-18
 
 ### Changed
 
@@ -145,7 +311,7 @@
 - Added `Password reset` rate limit configuration. #1077
 - Forced user logout after 15 failed attempts to change password. #1078
 
-## [4.1.0]  - 2023-05-18
+## [4.1.0] - 2023-05-18
 
 ### Added
 
@@ -156,7 +322,7 @@
 - Updated Python and JavaScript dependencies
 - Dropped Python 3.6 support
 
-## [4.0.0]  - 2018-11-10
+## [4.0.0] - 2018-11-10
 
 ### Added
 
@@ -178,7 +344,7 @@
 
 - Disable HMAC email validation so that an cooldown period is respected, #584
 
-## [3.4.0]  - 2018-05-18
+## [3.4.0] - 2018-05-18
 
 ### Added
 
@@ -189,7 +355,7 @@
 - Add quicknotes to CRL
 - Updated libraries
 
-## [3.3.0]  - 2018-02-18
+## [3.3.0] - 2018-02-18
 
 ### Added
 
@@ -197,7 +363,7 @@
 - Add support for personal setting tags in info.xml and ids instead of URLs for documentation
 - Add another flag to differentiate between supported and unreleased Nextcloud releases
 
-## [3.2.0]  - 2018-02-04
+## [3.2.0] - 2018-02-04
 
 ### Added
 

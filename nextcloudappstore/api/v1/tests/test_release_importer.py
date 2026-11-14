@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -55,9 +60,9 @@ class ImporterTest(TestCase):
         release = app.releases.all()[0]
         self.assertEqual(settings.CERTIFICATE_DIGEST, release.signature_digest)
         self.assertEqual("8.8.2", release.version)
-        self.assertEqual(">=11.0.0,<13.0.0", release.platform_version_spec)
+        self.assertEqual(">=31.0.0,<33.0.0", release.platform_version_spec)
         self.assertEqual("*", release.php_version_spec)
-        self.assertEqual(">=11,<=12", release.raw_platform_version_spec)
+        self.assertEqual(">=31,<=32", release.raw_platform_version_spec)
         self.assertEqual("*", release.raw_php_version_spec)
         self.assertEqual(32, release.min_int_size)
         self._assert_all_empty(release, ["signature", "download"])
@@ -66,7 +71,7 @@ class ImporterTest(TestCase):
         self.assertEqual(0, release.shell_commands.count())
         self.assertEqual(0, release.shell_commands.count())
         self.assertEqual(1, release.licenses.count())
-        self.assertEqual("agpl", release.licenses.all()[0].id)
+        self.assertEqual("AGPL-3.0-or-later", release.licenses.all()[0].id)
         self.assertEqual(None, release.aa_is_system)
 
     def test_full(self):
@@ -94,12 +99,16 @@ class ImporterTest(TestCase):
         )
         release = app.releases.all()[0]
         screenshots = app.screenshots.all()
+        videos = app.videos.all()
         extensions = release.php_extensions.all()
         databases = release.databases.all()
 
         self.assertEqual(2, screenshots.count())
         self.assertEqual("https://example.com/1-thumb.png", screenshots[0].small_thumbnail)
         self.assertEqual("", screenshots[1].small_thumbnail)
+        self.assertEqual(2, videos.count())
+        self.assertEqual("https://peertube.tv/videos/embed/dMWVlMwd9ecp5UVAOUhTDt", videos[0].url)
+        self.assertEqual("https://peertube.tv/videos/embed/TpUpEIu3PkYqljmQw7T0jR", videos[1].url)
         self.assertEqual(3, databases.count())
         self.assertEqual(4, extensions.count())
 
@@ -230,11 +239,13 @@ class ImporterTestAA(ImporterTest):
         self.assertEqual(0, release.php_extensions.count())
         self.assertEqual(0, release.databases.count())
         self.assertEqual(0, release.shell_commands.count())
-        self.assertEqual("mit", release.licenses.all()[0].id)
+        self.assertEqual("MIT", release.licenses.all()[0].id)
         self.assertEqual(False, release.aa_is_system)
         self.assertEqual(1, release.deploy_methods.count())
         all_scopes = release.api_scopes.all()
         self.assertEqual(0, len(all_scopes))
+        all_deploy_env_vars = release.environment_variables.all()
+        self.assertEqual(0, len(all_deploy_env_vars))
 
     def test_full(self):
         self._check_removed_translations()
@@ -267,13 +278,13 @@ class ImporterTestAA(ImporterTest):
         release = app.releases.all()[0]
         self.assertEqual(settings.CERTIFICATE_DIGEST, release.signature_digest)
         self.assertEqual("2.0.0", release.version)
-        self.assertEqual(">=28.0.0,<29.0.0", release.platform_version_spec)
+        self.assertEqual(">=31.0.0,<32.0.0", release.platform_version_spec)
         self.assertEqual("*", release.php_version_spec)
-        self.assertEqual(">=28,<=28", release.raw_platform_version_spec)
+        self.assertEqual(">=31,<=31", release.raw_platform_version_spec)
         self.assertEqual("*", release.raw_php_version_spec)
         self._assert_all_empty(release, ["signature", "download"])
         self.assertEqual(1, release.licenses.count())
-        self.assertEqual("agpl", release.licenses.all()[0].id)
+        self.assertEqual("AGPL-3.0-or-later", release.licenses.all()[0].id)
         self.assertEqual(True, release.aa_is_system)
         self.assertEqual(1, release.deploy_methods.count())
         all_scopes = release.api_scopes.all()
@@ -281,6 +292,10 @@ class ImporterTestAA(ImporterTest):
         self.assertEqual("FILES", all_scopes[0].scope_name)
         self.assertEqual("NOTIFICATIONS", all_scopes[1].scope_name)
         self.assertEqual("TALK", all_scopes[2].scope_name)
+        all_deploy_env_vars = release.environment_variables.all()
+        self.assertEqual(2, len(all_deploy_env_vars))
+        self.assertEqual("SOME_VALUE1", all_deploy_env_vars[0].env_name)
+        self.assertEqual("SOME_VALUE2", all_deploy_env_vars[1].env_name)
 
     def test_release_no_update(self):
         result = parse_app_metadata(self.min, self.config.info_schema, self.config.pre_info_xslt, self.config.info_xslt)

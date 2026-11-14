@@ -1,3 +1,8 @@
+"""
+SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+
 from django.contrib.auth import get_user_model
 from parler_rest.fields import TranslatedFieldsField
 from parler_rest.serializers import TranslatableModelSerializer
@@ -6,6 +11,7 @@ from rest_framework.fields import DateTimeField, SerializerMethodField
 
 from nextcloudappstore.core.models import (
     App,
+    AppApiEnvironmentVariable,
     AppApiReleaseApiScope,
     AppApiReleaseDeployMethod,
     AppAuthor,
@@ -16,6 +22,7 @@ from nextcloudappstore.core.models import (
     NextcloudRelease,
     PhpExtensionDependency,
     Screenshot,
+    Video,
 )
 from nextcloudappstore.core.validators import HttpsUrlValidator
 
@@ -128,9 +135,16 @@ class ApiScopeSerializer(serializers.ModelSerializer):
         fields = ("scope_name",)
 
 
+class AppApiEnvironmentVariableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppApiEnvironmentVariable
+        fields = ("env_name", "display_name", "description", "default")
+
+
 class AppApiAppReleaseSerializer(AppReleaseSerializer):
     deploy_methods = DeployMethodSerializer(many=True, read_only=True)
     api_scopes = ApiScopeSerializer(many=True, read_only=True)
+    environment_variables = AppApiEnvironmentVariableSerializer(many=True, read_only=True)
 
     class Meta:
         model = AppRelease
@@ -155,6 +169,7 @@ class AppApiAppReleaseSerializer(AppReleaseSerializer):
             "aa_is_system",
             "deploy_methods",
             "api_scopes",
+            "environment_variables",
         )
 
 
@@ -164,10 +179,17 @@ class ScreenshotSerializer(serializers.ModelSerializer):
         fields = ("url", "small_thumbnail")
 
 
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ("url",)
+
+
 class AppSerializer(serializers.ModelSerializer):
     releases = AppReleaseSerializer(many=True, read_only=True)
     discussion = SerializerMethodField()
     screenshots = ScreenshotSerializer(many=True, read_only=True)
+    videos = VideoSerializer(many=True, read_only=True)
     authors = AuthorSerializer(many=True, read_only=True)
     translations = TranslatedFieldsField(shared_model=App)
     last_modified = DateTimeField(source="last_release")
@@ -186,6 +208,7 @@ class AppSerializer(serializers.ModelSerializer):
             "last_modified",
             "releases",
             "screenshots",
+            "videos",
             "translations",
             "is_featured",
             "authors",
@@ -229,3 +252,4 @@ class AppReleaseDownloadSerializer(serializers.Serializer):
 class AppRegisterSerializer(serializers.Serializer):
     certificate = serializers.CharField()
     signature = serializers.CharField()
+    is_enterprise_only = serializers.BooleanField(required=False, default=False)

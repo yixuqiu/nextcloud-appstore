@@ -3,6 +3,9 @@
 # nextcloudappstore documentation build configuration file, created by
 # sphinx-quickstart on Sat Jun 18 23:44:17 2016.
 #
+# SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
 # This file is execfile()d with the current directory set to its
 # containing dir.
 #
@@ -20,8 +23,6 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 from datetime import datetime
-
-import sphinx_rtd_theme
 
 # -- General configuration ------------------------------------------------
 
@@ -59,7 +60,7 @@ project = "AppStore"
 copyright = str(datetime.now().year) + " Nextcloud GmbH"  # noqa
 author = "Nextclouders"
 
-version = "4.3.3"
+version = "5.0.0"
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -123,7 +124,6 @@ todo_include_todos = False
 #
 
 html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
